@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<p:ajaxStatus id="ajaxStatusPanel" onstart="PF('statusDialog').show();"
+		onsuccess="PF('statusDialog').hide();" />
+	<p:dialog widgetVar="statusDialog" showHeader="false" draggable="false"
+		closable="false" appendToBody="true" resizable="false">
+		<h:form>
+			<img
+				src="#{facesContext.externalContext.requestContextPath}//resources/images/load.gif"
+				class="center" />
+			<div class="centered">
+				<h:outputLabel value="Procesando . . ." />
+			</div>
+		</h:form>
+	</p:dialog>
+	<div class="row">
+		<ui:insert name="cuerpo">
+		</ui:insert>
+	</div>
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+		<p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	</p:confirmDialog>
+</ui:composition>

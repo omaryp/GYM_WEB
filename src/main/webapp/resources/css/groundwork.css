@@ -1,0 +1,411 @@
+/* ============================================= GroundworkCSS by Gary Hepting Last Updated:2013-1-28 ===========================================*/
+*, *:after,*:before { -ms-box-sizing: border-box; -o-box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; *behavior: url(js/libs/boxsizing.htc); }
+
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, ol, ul, li, dl, dt, dd, a, img, blockquote, cite, em, small, strong, b, u, i, time, address, center, form, fieldset, legend, label, input, textarea, select, button, table, caption, tbody, tfoot, thead, tr, th, td, header, footer, aside, menu, nav, section, article, details, pre, code, iframe, object, canvas, audio, video { margin: 0; padding: 0; border: 0; }
+
+header, footer, aside, menu, nav, section, article, details { display: block; }
+
+html { width: 100%; height: 100%; }
+
+html, body { width: 100% !important; min-height: 100%; background: white; padding: 0; }
+
+hr { border: 0; border-bottom: 1px solid #dddddd; margin: 10px auto; clear: both; }
+
+img, a img { max-width: 100%; border: none; }
+
+@font-face { font-family: 'Average Sans'; font-style: normal; font-weight: 400; src: url(http://themes.googleusercontent.com/static/fonts/averagesans/v1/dnU3R-5A_43y5bIyLztPsXZ2MAKAc2x4R1uOSeegc5U.eot); src: local("Average Sans"), local("AverageSans-Regular"), url(http://themes.googleusercontent.com/static/fonts/averagesans/v1/dnU3R-5A_43y5bIyLztPsXZ2MAKAc2x4R1uOSeegc5U.eot) format("embedded-opentype"), url(http://themes.googleusercontent.com/static/fonts/averagesans/v1/dnU3R-5A_43y5bIyLztPsXhCUOGz7vYGh680lGh-uXM.woff) format("woff"), url(http://themes.googleusercontent.com/static/fonts/averagesans/v1/dnU3R-5A_43y5bIyLztPsZS3E-kSBmtLoNJPDtbj2Pk.ttf) format("truetype"); }
+
+.container { width: 1200px; margin: 0 auto; }
+
+.row { width: 100%; }
+
+.whole, .wholes, .half, .halves, .third, .thirds, .fourth, .fourths, .fifth, .fifths, .sixth, .sixths, .seventh, .sevenths, .eighth, .eighths, .ninth, .ninths, .tenth, .tenths, .eleventh, .elevenths, .twelfth, .twelfths { float: left; position: relative; min-height: 1px; }
+
+.centered { float: none !important; margin: 0 auto !important; }
+
+.whole.one, .wholes.one { width: 100%; }
+
+.half.one, .halves.one { width: 50%; }
+.half.two, .halves.two { width: 100%; }
+.half.right-one, .halves.right-one { left: 50%; }
+.half.left-one, .halves.left-one { right: 50%; }
+.half.skip-one, .halves.skip-one { margin-left: 50%; }
+
+.third.one, .thirds.one { width: 33.33333%; }
+.third.two, .thirds.two { width: 66.66667%; }
+.third.three, .thirds.three { width: 100%; }
+.third.right-one, .thirds.right-one { left: 33.33333%; }
+.third.right-two, .thirds.right-two { left: 66.66667%; }
+.third.left-one, .thirds.left-one { right: 33.33333%; }
+.third.left-two, .thirds.left-two { right: 66.66667%; }
+.third.skip-one, .thirds.skip-one { margin-left: 33.33333%; }
+.third.skip-two, .thirds.skip-two { margin-left: 66.66667%; }
+
+.fourth.one, .fourths.one { width: 25%; }
+.fourth.two, .fourths.two { width: 50%; }
+.fourth.three, .fourths.three { width: 75%; }
+.fourth.four, .fourths.four { width: 100%; }
+.fourth.right-one, .fourths.right-one { left: 25%; }
+.fourth.right-two, .fourths.right-two { left: 50%; }
+.fourth.right-three, .fourths.right-three { left: 75%; }
+.fourth.left-one, .fourths.left-one { right: 25%; }
+.fourth.left-two, .fourths.left-two { right: 50%; }
+.fourth.left-three, .fourths.left-three { right: 75%; }
+.fourth.skip-one, .fourths.skip-one { margin-left: 25%; }
+.fourth.skip-two, .fourths.skip-two { margin-left: 50%; }
+.fourth.skip-three, .fourths.skip-three { margin-left: 75%; }
+
+.fifth.one, .fifths.one { width: 20%; }
+.fifth.two, .fifths.two { width: 40%; }
+.fifth.three, .fifths.three { width: 60%; }
+.fifth.four, .fifths.four { width: 80%; }
+.fifth.five, .fifths.five { width: 100%; }
+.fifth.right-one, .fifths.right-one { left: 20%; }
+.fifth.right-two, .fifths.right-two { left: 40%; }
+.fifth.right-three, .fifths.right-three { left: 60%; }
+.fifth.right-four, .fifths.right-four { left: 80%; }
+.fifth.left-one, .fifths.left-one { right: 20%; }
+.fifth.left-two, .fifths.left-two { right: 40%; }
+.fifth.left-three, .fifths.left-three { right: 60%; }
+.fifth.left-four, .fifths.left-four { right: 80%; }
+.fifth.skip-one, .fifths.skip-one { margin-left: 20%; }
+.fifth.skip-two, .fifths.skip-two { margin-left: 40%; }
+.fifth.skip-three, .fifths.skip-three { margin-left: 60%; }
+.fifth.skip-four, .fifths.skip-four { margin-left: 80%; }
+.fifth.right-one, .fifths.right-one { left: 20%; }
+.fifth.right-two, .fifths.right-two { left: 40%; }
+.fifth.right-three, .fifths.right-three { left: 60%; }
+.fifth.right-four, .fifths.right-four { left: 80%; }
+.fifth.left-one, .fifths.left-one { right: 20%; }
+.fifth.left-two, .fifths.left-two { right: 40%; }
+.fifth.left-three, .fifths.left-three { right: 60%; }
+.fifth.left-four, .fifths.left-four { right: 80%; }
+.fifth.skip-one, .fifths.skip-one { margin-left: 20%; }
+.fifth.skip-two, .fifths.skip-two { margin-left: 40%; }
+.fifth.skip-three, .fifths.skip-three { margin-left: 60%; }
+.fifth.skip-four, .fifths.skip-four { margin-left: 80%; }
+
+.sixth.one, .sixths.one { width: 16.66667%; }
+.sixth.two, .sixths.two { width: 33.33333%; }
+.sixth.three, .sixths.three { width: 50%; }
+.sixth.four, .sixths.four { width: 66.66667%; }
+.sixth.five, .sixths.five { width: 83.33333%; }
+.sixth.six, .sixths.six { width: 100%; }
+.sixth.right-one, .sixths.right-one { left: 16.66667%; }
+.sixth.right-two, .sixths.right-two { left: 33.33333%; }
+.sixth.right-three, .sixths.right-three { left: 50%; }
+.sixth.right-four, .sixths.right-four { left: 66.66667%; }
+.sixth.right-five, .sixths.right-five { left: 83.33333%; }
+.sixth.left-one, .sixths.left-one { right: 16.66667%; }
+.sixth.left-two, .sixths.left-two { right: 33.33333%; }
+.sixth.left-three, .sixths.left-three { right: 50%; }
+.sixth.left-four, .sixths.left-four { right: 66.66667%; }
+.sixth.left-five, .sixths.left-five { right: 83.33333%; }
+.sixth.skip-one, .sixths.skip-one { margin-left: 16.66667%; }
+.sixth.skip-two, .sixths.skip-two { margin-left: 33.33333%; }
+.sixth.skip-three, .sixths.skip-three { margin-left: 50%; }
+.sixth.skip-four, .sixths.skip-four { margin-left: 66.66667%; }
+.sixth.skip-five, .sixths.skip-five { margin-left: 83.33333%; }
+
+.seventh.one, .sevenths.one { width: 14.28571%; }
+.seventh.two, .sevenths.two { width: 28.57143%; }
+.seventh.three, .sevenths.three { width: 42.85714%; }
+.seventh.four, .sevenths.four { width: 57.14286%; }
+.seventh.five, .sevenths.five { width: 71.42857%; }
+.seventh.six, .sevenths.six { width: 85.71429%; }
+.seventh.seven, .sevenths.seven { width: 100%; }
+.seventh.right-one, .sevenths.right-one { left: 14.28571%; }
+.seventh.right-two, .sevenths.right-two { left: 28.57143%; }
+.seventh.right-three, .sevenths.right-three { left: 42.85714%; }
+.seventh.right-four, .sevenths.right-four { left: 57.14286%; }
+.seventh.right-five, .sevenths.right-five { left: 71.42857%; }
+.seventh.right-six, .sevenths.right-six { left: 85.71429%; }
+.seventh.left-one, .sevenths.left-one { right: 14.28571%; }
+.seventh.left-two, .sevenths.left-two { right: 28.57143%; }
+.seventh.left-three, .sevenths.left-three { right: 42.85714%; }
+.seventh.left-four, .sevenths.left-four { right: 57.14286%; }
+.seventh.left-five, .sevenths.left-five { right: 71.42857%; }
+.seventh.left-six, .sevenths.left-six { right: 85.71429%; }
+.seventh.skip-one, .sevenths.skip-one { margin-left: 14.28571%; }
+.seventh.skip-two, .sevenths.skip-two { margin-left: 28.57143%; }
+.seventh.skip-three, .sevenths.skip-three { margin-left: 42.85714%; }
+.seventh.skip-four, .sevenths.skip-four { margin-left: 57.14286%; }
+.seventh.skip-five, .sevenths.skip-five { margin-left: 71.42857%; }
+.seventh.skip-six, .sevenths.skip-six { margin-left: 85.71429%; }
+
+.eighth.one, .eighths.one { width: 12.5%; }
+.eighth.two, .eighths.two { width: 25%; }
+.eighth.three, .eighths.three { width: 37.5%; }
+.eighth.four, .eighths.four { width: 50%; }
+.eighth.five, .eighths.five { width: 62.5%; }
+.eighth.six, .eighths.six { width: 75%; }
+.eighth.seven, .eighths.seven { width: 87.5%; }
+.eighth.eight, .eighths.eight { width: 100%; }
+.eighth.right-one, .eighths.right-one { left: 12.5%; }
+.eighth.right-two, .eighths.right-two { left: 25%; }
+.eighth.right-three, .eighths.right-three { left: 37.5%; }
+.eighth.right-four, .eighths.right-four { left: 50%; }
+.eighth.right-five, .eighths.right-five { left: 62.5%; }
+.eighth.right-six, .eighths.right-six { left: 75%; }
+.eighth.right-seven, .eighths.right-seven { left: 87.5%; }
+.eighth.left-one, .eighths.left-one { right: 12.5%; }
+.eighth.left-two, .eighths.left-two { right: 25%; }
+.eighth.left-three, .eighths.left-three { right: 37.5%; }
+.eighth.left-four, .eighths.left-four { right: 50%; }
+.eighth.left-five, .eighths.left-five { right: 62.5%; }
+.eighth.left-six, .eighths.left-six { right: 75%; }
+.eighth.left-seven, .eighths.left-seven { right: 87.5%; }
+.eighth.skip-one, .eighths.skip-one { margin-left: 12.5%; }
+.eighth.skip-two, .eighths.skip-two { margin-left: 25%; }
+.eighth.skip-three, .eighths.skip-three { margin-left: 37.5%; }
+.eighth.skip-four, .eighths.skip-four { margin-left: 50%; }
+.eighth.skip-five, .eighths.skip-five { margin-left: 62.5%; }
+.eighth.skip-six, .eighths.skip-six { margin-left: 75%; }
+.eighth.skip-seven, .eighths.skip-seven { margin-left: 87.5%; }
+
+.ninth.one, .ninths.one { width: 11.11111%; }
+.ninth.two, .ninths.two { width: 22.22222%; }
+.ninth.three, .ninths.three { width: 33.33333%; }
+.ninth.four, .ninths.four { width: 44.44444%; }
+.ninth.five, .ninths.five { width: 55.55556%; }
+.ninth.six, .ninths.six { width: 66.66667%; }
+.ninth.seven, .ninths.seven { width: 77.77778%; }
+.ninth.eight, .ninths.eight { width: 88.88889%; }
+.ninth.nine, .ninths.nine { width: 100%; }
+.ninth.right-one, .ninths.right-one { left: 11.11111%; }
+.ninth.right-two, .ninths.right-two { left: 22.22222%; }
+.ninth.right-three, .ninths.right-three { left: 33.33333%; }
+.ninth.right-four, .ninths.right-four { left: 44.44444%; }
+.ninth.right-five, .ninths.right-five { left: 55.55556%; }
+.ninth.right-six, .ninths.right-six { left: 66.66667%; }
+.ninth.right-seven, .ninths.right-seven { left: 77.77778%; }
+.ninth.right-eight, .ninths.right-eight { left: 88.88889%; }
+.ninth.left-one, .ninths.left-one { right: 11.11111%; }
+.ninth.left-two, .ninths.left-two { right: 22.22222%; }
+.ninth.left-three, .ninths.left-three { right: 33.33333%; }
+.ninth.left-four, .ninths.left-four { right: 44.44444%; }
+.ninth.left-five, .ninths.left-five { right: 55.55556%; }
+.ninth.left-six, .ninths.left-six { right: 66.66667%; }
+.ninth.left-seven, .ninths.left-seven { right: 77.77778%; }
+.ninth.left-eight, .ninths.left-eight { right: 88.88889%; }
+.ninth.skip-one, .ninths.skip-one { margin-left: 11.11111%; }
+.ninth.skip-two, .ninths.skip-two { margin-left: 22.22222%; }
+.ninth.skip-three, .ninths.skip-three { margin-left: 33.33333%; }
+.ninth.skip-four, .ninths.skip-four { margin-left: 44.44444%; }
+.ninth.skip-five, .ninths.skip-five { margin-left: 55.55556%; }
+.ninth.skip-six, .ninths.skip-six { margin-left: 66.66667%; }
+.ninth.skip-seven, .ninths.skip-seven { margin-left: 77.77778%; }
+.ninth.skip-eight, .ninths.skip-eight { margin-left: 88.88889%; }
+
+.tenth.one, .tenths.one { width: 10%; }
+.tenth.two, .tenths.two { width: 20%; }
+.tenth.three, .tenths.three { width: 30%; }
+.tenth.four, .tenths.four { width: 40%; }
+.tenth.five, .tenths.five { width: 50%; }
+.tenth.six, .tenths.six { width: 60%; }
+.tenth.seven, .tenths.seven { width: 70%; }
+.tenth.eight, .tenths.eight { width: 80%; }
+.tenth.nine, .tenths.nine { width: 90%; }
+.tenth.ten, .tenths.ten { width: 100%; }
+.tenth.right-one, .tenths.right-one { left: 10%; }
+.tenth.right-two, .tenths.right-two { left: 20%; }
+.tenth.right-three, .tenths.right-three { left: 30%; }
+.tenth.right-four, .tenths.right-four { left: 40%; }
+.tenth.right-five, .tenths.right-five { left: 50%; }
+.tenth.right-six, .tenths.right-six { left: 60%; }
+.tenth.right-seven, .tenths.right-seven { left: 70%; }
+.tenth.right-eight, .tenths.right-eight { left: 80%; }
+.tenth.right-nine, .tenths.right-nine { left: 90%; }
+.tenth.left-one, .tenths.left-one { right: 10%; }
+.tenth.left-two, .tenths.left-two { right: 20%; }
+.tenth.left-three, .tenths.left-three { right: 30%; }
+.tenth.left-four, .tenths.left-four { right: 40%; }
+.tenth.left-five, .tenths.left-five { right: 50%; }
+.tenth.left-six, .tenths.left-six { right: 60%; }
+.tenth.left-seven, .tenths.left-seven { right: 70%; }
+.tenth.left-eight, .tenths.left-eight { right: 80%; }
+.tenth.left-nine, .tenths.left-nine { right: 90%; }
+.tenth.skip-one, .tenths.skip-one { margin-left: 10%; }
+.tenth.skip-two, .tenths.skip-two { margin-left: 20%; }
+.tenth.skip-three, .tenths.skip-three { margin-left: 30%; }
+.tenth.skip-four, .tenths.skip-four { margin-left: 40%; }
+.tenth.skip-five, .tenths.skip-five { margin-left: 50%; }
+.tenth.skip-six, .tenths.skip-six { margin-left: 60%; }
+.tenth.skip-seven, .tenths.skip-seven { margin-left: 70%; }
+.tenth.skip-eight, .tenths.skip-eight { margin-left: 80%; }
+.tenth.skip-nine, .tenths.skip-nine { margin-left: 90%; }
+
+.eleventh.one, .elevenths.one { width: 9.09091%; }
+.eleventh.two, .elevenths.two { width: 18.18182%; }
+.eleventh.three, .elevenths.three { width: 27.27273%; }
+.eleventh.four, .elevenths.four { width: 36.36364%; }
+.eleventh.five, .elevenths.five { width: 45.45455%; }
+.eleventh.six, .elevenths.six { width: 54.54545%; }
+.eleventh.seven, .elevenths.seven { width: 63.63636%; }
+.eleventh.eight, .elevenths.eight { width: 72.72727%; }
+.eleventh.nine, .elevenths.nine { width: 81.81818%; }
+.eleventh.ten, .elevenths.ten { width: 90.90909%; }
+.eleventh.eleven, .elevenths.eleven { width: 100%; }
+.eleventh.right-one, .elevenths.right-one { left: 9.09091%; }
+.eleventh.right-two, .elevenths.right-two { left: 18.18182%; }
+.eleventh.right-three, .elevenths.right-three { left: 27.27273%; }
+.eleventh.right-four, .elevenths.right-four { left: 36.36364%; }
+.eleventh.right-five, .elevenths.right-five { left: 45.45455%; }
+.eleventh.right-six, .elevenths.right-six { left: 54.54545%; }
+.eleventh.right-seven, .elevenths.right-seven { left: 63.63636%; }
+.eleventh.right-eight, .elevenths.right-eight { left: 72.72727%; }
+.eleventh.right-nine, .elevenths.right-nine { left: 81.81818%; }
+.eleventh.right-ten, .elevenths.right-ten { left: 90.90909%; }
+.eleventh.left-one, .elevenths.left-one { right: 9.09091%; }
+.eleventh.left-two, .elevenths.left-two { right: 18.18182%; }
+.eleventh.left-three, .elevenths.left-three { right: 27.27273%; }
+.eleventh.left-four, .elevenths.left-four { right: 36.36364%; }
+.eleventh.left-five, .elevenths.left-five { right: 45.45455%; }
+.eleventh.left-six, .elevenths.left-six { right: 54.54545%; }
+.eleventh.left-seven, .elevenths.left-seven { right: 63.63636%; }
+.eleventh.left-eight, .elevenths.left-eight { right: 72.72727%; }
+.eleventh.left-nine, .elevenths.left-nine { right: 81.81818%; }
+.eleventh.left-ten, .elevenths.left-ten { right: 90.90909%; }
+.eleventh.skip-one, .elevenths.skip-one { margin-left: 9.09091%; }
+.eleventh.skip-two, .elevenths.skip-two { margin-left: 18.18182%; }
+.eleventh.skip-three, .elevenths.skip-three { margin-left: 27.27273%; }
+.eleventh.skip-four, .elevenths.skip-four { margin-left: 36.36364%; }
+.eleventh.skip-five, .elevenths.skip-five { margin-left: 45.45455%; }
+.eleventh.skip-six, .elevenths.skip-six { margin-left: 54.54545%; }
+.eleventh.skip-seven, .elevenths.skip-seven { margin-left: 63.63636%; }
+.eleventh.skip-eight, .elevenths.skip-eight { margin-left: 72.72727%; }
+.eleventh.skip-nine, .elevenths.skip-nine { margin-left: 81.81818%; }
+.eleventh.skip-ten, .elevenths.skip-ten { margin-left: 90.90909%; }
+
+.twelfth.one, .twelfths.one { width: 8.33333%; }
+.twelfth.two, .twelfths.two { width: 16.66667%; }
+.twelfth.three, .twelfths.three { width: 25%; }
+.twelfth.four, .twelfths.four { width: 33.33333%; }
+.twelfth.five, .twelfths.five { width: 41.66667%; }
+.twelfth.six, .twelfths.six { width: 50%; }
+.twelfth.seven, .twelfths.seven { width: 58.33333%; }
+.twelfth.eight, .twelfths.eight { width: 66.66667%; }
+.twelfth.nine, .twelfths.nine { width: 75%; }
+.twelfth.ten, .twelfths.ten { width: 83.33333%; }
+.twelfth.eleven, .twelfths.eleven { width: 91.66667%; }
+.twelfth.twelve, .twelfths.twelve { width: 100%; }
+.twelfth.right-one, .twelfths.right-one { left: 8.33333%; }
+.twelfth.right-two, .twelfths.right-two { left: 16.66667%; }
+.twelfth.right-three, .twelfths.right-three { left: 25%; }
+.twelfth.right-four, .twelfths.right-four { left: 33.33333%; }
+.twelfth.right-five, .twelfths.right-five { left: 41.66667%; }
+.twelfth.right-six, .twelfths.right-six { left: 50%; }
+.twelfth.right-seven, .twelfths.right-seven { left: 58.33333%; }
+.twelfth.right-eight, .twelfths.right-eight { left: 66.66667%; }
+.twelfth.right-nine, .twelfths.right-nine { left: 75%; }
+.twelfth.right-ten, .twelfths.right-ten { left: 83.33333%; }
+.twelfth.right-eleven, .twelfths.right-eleven { left: 91.66667%; }
+.twelfth.left-one, .twelfths.left-one { right: 8.33333%; }
+.twelfth.left-two, .twelfths.left-two { right: 16.66667%; }
+.twelfth.left-three, .twelfths.left-three { right: 25%; }
+.twelfth.left-four, .twelfths.left-four { right: 33.33333%; }
+.twelfth.left-five, .twelfths.left-five { right: 41.66667%; }
+.twelfth.left-six, .twelfths.left-six { right: 50%; }
+.twelfth.left-seven, .twelfths.left-seven { right: 58.33333%; }
+.twelfth.left-eight, .twelfths.left-eight { right: 66.66667%; }
+.twelfth.left-nine, .twelfths.left-nine { right: 75%; }
+.twelfth.left-ten, .twelfths.left-ten { right: 83.33333%; }
+.twelfth.right-eleven, .twelfths.right-eleven { right: 91.66667%; }
+.twelfth.skip-one, .twelfths.skip-one { margin-left: 8.33333%; }
+.twelfth.skip-two, .twelfths.skip-two { margin-left: 16.66667%; }
+.twelfth.skip-three, .twelfths.skip-three { margin-left: 25%; }
+.twelfth.skip-four, .twelfths.skip-four { margin-left: 33.33333%; }
+.twelfth.skip-five, .twelfths.skip-five { margin-left: 41.66667%; }
+.twelfth.skip-six, .twelfths.skip-six { margin-left: 50%; }
+.twelfth.skip-seven, .twelfths.skip-seven { margin-left: 58.33333%; }
+.twelfth.skip-eight, .twelfths.skip-eight { margin-left: 66.66667%; }
+.twelfth.skip-nine, .twelfths.skip-nine { margin-left: 75%; }
+.twelfth.skip-ten, .twelfths.skip-ten { margin-left: 83.33333%; }
+.twelfth.skip-eleven, .twelfths.skip-eleven { margin-left: 91.66667%; }
+::selection { background: #2b2b2d; color: white; }
+
+::-moz-selection { background: #2b2b2d; color: white; }
+
+* { outline: none; }
+*:focus { -ms-filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.35)); -o-filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.35)); -moz-filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.35)); -webkit-filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.35)); filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.35)); }
+
+h1, h2, h3, h4, h5, h6 { line-height: 1.1; margin-bottom: 15px; }
+
+h1 { font-weight: 200; font-size: 32.66667px; }
+    
+h2 { font-weight: 200; font-size: 28px; }
+
+h3 { font-weight: 300; font-size: 21px; }
+
+h4 { font-weight: 400; font-size: 18.66667px; }
+
+h5 { font-weight: 500; font-size: 14.33333px; }
+
+h6 { font-weight: 500; font-size: 12.33333px; text-transform: uppercase; }
+sup { font-size: 0.8em; }
+
+sub { font-size: 0.8em; }
+
+input, select, textarea { margin: 0; padding: 0.4em;  font-size: 1em; line-height: 1.5;background: white;  -ms-border-radius: 4px; -o-border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; }
+input[type=checkbox], input[type=radio], select[type=checkbox], select[type=radio], textarea[type=checkbox], textarea[type=radio] { display: inline-block; width: 1em; height: 1em; margin: 0 0 0 0.2em; background: white; border: 1px solid #dddddd; -ms-border-radius: 4px; -o-border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; }
+
+textarea:focus { -ms-box-shadow: 0 0 15px rgba(0, 0, 0, 0.125); filter: Glow(color=#20000000, strength=15); -ms-filter: glow(color=#20000000, strength=15); -o-box-shadow: 0 0 15px rgba(0, 0, 0, 0.125); -moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.125); -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.125); box-shadow: 0 0 15px rgba(0, 0, 0, 0.125); }
+
+
+.pull-right { float: right; }
+
+.pull-left { float: left; }
+
+.padded { padding: 10px; }
+.padded.double { padding: 20px; }
+.padded.tripple { padding: 30px; }
+
+.pad-top { padding-top: 10px; }
+.pad-top.double { padding-top: 20px; }
+.pad-top.tripple { padding-top: 30px; }
+
+.pad-right { padding-right: 10px; }
+.pad-right.double { padding-right: 20px; }
+.pad-right.tripple { padding-right: 30px; }
+
+.pad-bottom { padding-bottom: 10px; }
+.pad-bottom.double { padding-bottom: 20px; }
+.pad-bottom.tripple { padding-bottom: 30px; }
+
+.pad-left { padding-left: 10px; }
+.pad-left.double { padding-left: 20px; }
+.pad-left.tripple { padding-left: 30px; }
+
+.gapped { margin: 10px; }
+.gapped.double { margin: 20px; }
+.gapped.tripple { margin: 30px; }
+
+.gap-top { margin-top: 10px; }
+.gap-top.double { margin-top: 20px; }
+.gap-top.tripple { margin-top: 30px; }
+
+.gap-right { margin-right: 10px; }
+.gap-right.double { margin-right: 20px; }
+
+.gap-bottom { margin-bottom: 10px; }
+.gap-bottom.double { margin-bottom: 20px; }
+
+.gap-left { margin-left: 10px; }
+.gap-left.double { padding: 20px; }
+
+.align-top { display: table-cell; vertical-align: top; }
+
+.align-right { text-align: right; }
+
+.align-bottom { display: table-cell; vertical-align: bottom; }
+
+.align-left { text-align: left; }
+
+.align-center { text-align: center; }
+
+.justify { text-align: justify; }
+
+.center { display: block; margin: 0 auto; }
+
+.clear, .row, .clearfix { display: block; clear: both; }
+.clear:after, .row:after, .clearfix:after { content: ''; display: block; clear: both; }

@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<h:form id="ing_cliente" prependId="false">
+		<p:panel header="Nuevo Cliente">
+			<div class="margen row">
+				<p:outputLabel value="Código : "
+					styleClass="negrita espacio_comp one fourth" />
+				<p:outputLabel value="#{clienteController.codCli}"
+					styleClass="one fourth" />
+			</div>
+			<div class="margen row">
+				<p:outputLabel value=" Tipo persona : "
+					styleClass="negrita espacio_comp one fourth" />
+				<p:selectOneRadio id="rdb_tipoper" disabled="#{clienteController.read}"
+					value="#{clienteController.tipoPer}" styleClass="three fourths">
+					<f:selectItem itemLabel="Persona Natural" itemValue="1" />
+					<f:selectItem itemLabel="Persona Jurídica" itemValue="2" />
+					<p:ajax listener="#{clienteController.mostrarCampos}"
+						event="change" update="ing_cliente" />
+				</p:selectOneRadio>
+			</div>
+			<h:panelGroup id="png_PN" rendered="#{clienteController.verPn}">
+				<div class="margen row">
+					<p:outputLabel value="Nombres : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{clienteController.cliente.nombreCliente}" readonly="#{clienteController.read}"
+						styleClass="two fourths" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Apellidos : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{clienteController.cliente.apellidoCliente}" readonly="#{clienteController.read}"
+						styleClass="two fourths" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="DNI : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{clienteController.cliente.dni}" readonly="#{clienteController.read}"
+						styleClass="one fourth" />
+					<p:outputLabel value="Telefono : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{clienteController.cliente.telefonoCliente}" readonly="#{clienteController.read}"
+						styleClass="one fourth" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Dirección : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{clienteController.cliente.direccionCliente}" readonly="#{clienteController.read}"
+						styleClass="three fourths" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Hora Ini Rutina : "
+						styleClass="negrita espacio_comp one fourths" />
+					<p:calendar timeOnly="true" value="#{clienteController.horaIni}" disabled="#{clienteController.read}"
+						id="hor_ini" styleClass="one fourth" pattern="HH:mm a"
+						label="Hora Inicio Rutina" />
+					<p:outputLabel value="Hora Fin Rutina : "
+						styleClass="negrita espacio_comp one fourths" />
+					<p:calendar timeOnly="true" value="#{clienteController.horaFin}" disabled="#{clienteController.read}"
+						id="hor_fin" styleClass="one fourth" pattern="HH:mm a"
+						label="Hora Inicio Rutina" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Empresa : "
+						styleClass="negrita espacio_comp one fourth"  />
+					<p:selectOneMenu styleClass="three fourths" value="#{clienteController.cliente.clienteEmpresa}" disabled="#{clienteController.read}">
+						<f:selectItem itemLabel="Seleccione empresa" itemValue="-1" />
+						<f:selectItems value="#{clienteController.empresas}" var="pj"
+							itemLabel="#{pj.razonSocial}" itemValue="#{pj.codigoCliente}" />
+					</p:selectOneMenu>
+				</div>
+			</h:panelGroup>
+			<h:panelGroup id="png_PJ" rendered="#{clienteController.verPj}">
+				<div class="margen row">
+					<p:outputLabel value="Razon Social : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{clienteController.cliente.razonSocial}" readonly="#{clienteController.read}"
+						styleClass="three fourths" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Rep. Legal : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{clienteController.cliente.repLegal}" readonly="#{clienteController.read}"
+						styleClass="three fourths" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="RUC : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{clienteController.cliente.rucCliente}" readonly="#{clienteController.read}"
+						styleClass="one fourth" />
+					<p:outputLabel value="Telefono : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{clienteController.cliente.telefonoCliente}" readonly="#{clienteController.read}"
+						styleClass="one fourth" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Dirección : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{clienteController.cliente.direccionCliente}" readonly="#{clienteController.read}"
+						styleClass="three fourths" />
+				</div>
+			</h:panelGroup>
+		</p:panel>
+		<div class="margen">
+			<h:panelGroup id="png_guardar"
+				rendered="#{clienteController.verGuar}">
+				<p:commandButton id="btnGuar" value="Guardar" icon="ui-icon-check"
+					actionListener="#{clienteController.saveCliente}"
+					styleClass="ui-priority-primary" update=":mensajes">
+					<p:confirm header="Confirmación" message="Desea guardar los datos?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+			</h:panelGroup>
+			<h:panelGroup id="png_actualiza"
+				rendered="#{clienteController.verActualizar}">
+				<p:commandButton id="btnActu" value="Actualizar" actionListener="#{clienteController.actualizarCliente}"
+					icon="ui-icon-check" styleClass="ui-priority-primary" >
+					<p:confirm header="Confirmación" message="Desea guardar los datos?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+			</h:panelGroup>
+			<p:commandButton id="btnSalir" value="Salir" actionListener="#{clienteController.salir}"
+				icon="ui-icon-closethick" styleClass="ui-priority-primary" update=":frm_cliente" />
+		</div>
+	</h:form>
+
+</ui:composition>

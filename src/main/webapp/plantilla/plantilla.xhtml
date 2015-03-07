@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="icon" type="image/ico" href="" />
+	<h:outputStylesheet name="/groundwork.css" library="css"></h:outputStylesheet>
+	<h:outputStylesheet name="/groundwork-ie.css" library="css"></h:outputStylesheet>
+	<h:outputStylesheet name="/gym.css" library="css"></h:outputStylesheet>
+	<title><ui:insert name="titulo">Inicio</ui:insert></title>
+</h:head>
+<h:body >
+	<p:idleMonitor timeout="#{session.maxInactiveInterval * 1000}" onidle="dlg_sesion_exp.show()"/>
+	<p:growl id="mensajes" showDetail="true"/>
+	<p:layout fullPage="true" >
+		<p:layoutUnit position="north" size="112" id="cabeza">
+			<ui:include src="/plantilla/estructura/Cabecera.xhtml" /> 
+		</p:layoutUnit>
+ 		<p:layoutUnit position="center">
+			<ui:include src="/plantilla/estructura/Cuerpo.xhtml" />
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+</html>

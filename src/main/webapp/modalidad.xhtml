@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/plantilla/plantilla.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<ui:define name="titulo">
+    	Ingreso Clientes
+    </ui:define>
+	<ui:define name="cuerpo">
+	
+		<p:panel header="REGISTRO CLIENTES" styleClass="margen sin_borde">
+			<h:form id="frm_cliente" prependId="false">
+				<div class="margen row">
+					<p:outputLabel value=" Busqueda : "
+						styleClass="negrita espacio_comp one seventh" />
+					<p:inputText value="#{clienteController.valBus}" styleClass="negrita espacio_comp three sevenths">
+						<p:ajax update="tbl_clientes,:mensajes" event="keyup" listener="#{clienteController.cargarLista}"/>
+					</p:inputText>
+				</div>
+				<div class="margen row">
+					<p:outputLabel value=" Tipo persona : "
+						styleClass="negrita espacio_comp one seventh" />
+					<p:selectOneRadio id="rdb_bustipoper"
+						value="#{clienteController.tipoPer}" styleClass="four sevenths">
+						<f:selectItem itemLabel="Persona Natural" itemValue="1" />
+						<f:selectItem itemLabel="Persona Jurídica" itemValue="2" />
+						<p:ajax listener="#{clienteController.campoBusqueda}" event="change" />
+					</p:selectOneRadio>
+				</div>
+				<div class="margen">
+		    		<p:dataTable id="tbl_clientes" paginator="true" lazy="true" 
+			    		rows="10" paginatorPosition="bottom" 
+			    		emptyMessage="No hay coincidencias !!" var="cli"
+			    		value="#{clienteController.modelCliente}"
+			    		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+				        <p:column headerText="Cod. Cliente">
+				            <h:outputText value="#{cli.codigoCliente}" />
+				        </p:column>
+				        <p:column headerText="Nombre Cliente" rendered="#{clienteController.verCampo}">
+				            <h:outputText value="#{cli.nombreCliente} #{cli.apellidoCliente}" />
+				        </p:column>
+				        <p:column headerText="DNI" rendered="#{clienteController.verCampo}">
+				            <h:outputText value="#{cli.dni}" />
+				        </p:column>
+				        <p:column headerText="Razón Social" rendered="#{!clienteController.verCampo}">
+				            <h:outputText value="#{cli.razonSocial}" />
+				        </p:column>
+				        <p:column headerText="RUC" rendered="#{!clienteController.verCampo}">
+				            <h:outputText value="#{cli.rucCliente}" />
+				        </p:column>
+				        <p:column headerText="Dirección">
+				            <h:outputText value="#{cli.direccionCliente}" />
+				        </p:column>
+				        <p:column headerText="Opciones">
+				            <p:commandButton icon="ui-icon-document" title="Ver Cliente" actionListener="#{clienteController.verCliente}">
+				            	<f:setPropertyActionListener value="#{cli.codigoCliente}" target="#{clienteController.codCli}" />
+				            	<f:setPropertyActionListener value="0" target="#{clienteController.grabar}"/>  
+				            </p:commandButton>                  				 
+				            <p:commandButton icon="ui-icon-pencil" title="Modificar Cliente" actionListener="#{clienteController.verCliente}" >
+				            	<f:setPropertyActionListener value="#{cli.codigoCliente}" target="#{clienteController.codCli}" />
+				            	<f:setPropertyActionListener value="1" target="#{clienteController.grabar}"/>
+				            </p:commandButton>
+				            <p:commandButton icon="ui-icon-cancel" title="Eliminar Cliente" actionListener="#{clienteController.eliminarCliente}">
+				            	<p:confirm header="Confirmación" message="Desea dar de baja al cliente?" icon="ui-icon-alert" />
+				            	<f:setPropertyActionListener value="#{cli.codigoCliente}" target="#{clienteController.codCli}" />
+				            </p:commandButton>
+				        </p:column>
+	    			</p:dataTable>
+		    	</div>
+		    	<div class="margen">
+		    		<p:commandButton icon="ui-icon-plus" title="Nuevo Cliente" actionListener="#{clienteController.cargarClave}" value="Nuevo Cliente" styleClass="ui-priority-primary" update=":nvo_cliente" />
+		    	</div>
+			</h:form>
+		</p:panel>
+		
+		<p:dialog id="nvo_cliente" showHeader="false" widgetVar="dlg_cliente" width="900">
+			<ui:include src="/frm/frmCliente.xhtml" />
+		</p:dialog>
+		
+	</ui:define>
+</ui:composition>

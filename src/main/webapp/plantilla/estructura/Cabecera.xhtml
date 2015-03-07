@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<p:dialog widgetVar="dlg_sesion_exp" header="Sesión Expirada"
+		resizable="false" modal="true" width="400" appendToBody="true"
+		closable="false">
+		<div style="text-align: center;">
+			<h:outputText value="Su sesion ha expirado" style="display:block;" />
+			&nbsp;
+			<h:outputLink value="#{request.contextPath}/login/login.do"
+				id="logout">Iniciar Sesión</h:outputLink>
+		</div>
+	</p:dialog>
+	<h:form id="frm_header" prependId="false">
+		<span id="bck_cabecera" class="row bordeinf"> <span
+			class="two fourth"></span> <span class="one fourth"> <span
+				id="titulo" class="row">Gladiator-Fitnes</span> <span
+				class="row color_white">un día del 2015</span>
+		</span>
+		</span>
+		<div id="info" class="row">
+			<ul>
+				<li><span class="usuario"><h:outputText value="" /></span></li>
+				<li><span class="perfil"><h:outputText value="" /></span></li>
+				<li>
+					<!--<h:outputLink value="#{request.contextPath}/j_spring_security_logout" id="lnklogout" styleClass="salir">
+                  			Cerrar Sesión
+              			</h:outputLink>  --> <h:outputLink value=""
+						id="lnklogout" styleClass="salir">
+                  			Cerrar Sesión
+              			</h:outputLink>
+				</li>
+			</ul>
+		</div>
+	</h:form>
+</ui:composition>
