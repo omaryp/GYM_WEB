@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/plantilla/plantilla.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<ui:define name="titulo">
+    	Registro de servicios
+    </ui:define>
+	<ui:define name="cuerpo">
+		<p:panel header="SERVICIOS" styleClass="margen sin_borde">
+			<h:form id="frm_modalidad" prependId="false">
+				<div class="margen row">
+					<p:outputLabel value=" Busqueda : "
+						styleClass="negrita espacio_comp one seventh" />
+					<p:inputText value="#{servicioController.valBus}" styleClass="negrita espacio_comp three sevenths">
+						<p:ajax update="tbl_servicios,:mensajes" event="keyup" listener="#{servicioController.cargarLista}"/>
+					</p:inputText>
+				</div>
+				<div class="margen">
+		    		<p:dataTable id="tbl_servicios" paginator="true" lazy="true" 
+			    		rows="10" paginatorPosition="bottom" 
+			    		emptyMessage="No hay coincidencias !!" var="ser"
+			    		value="#{servicioController.modelServicio}"
+			    		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+				        <p:column headerText="Cod. Servicio">
+				            <h:outputText value="#{ser.codSer}" />
+				        </p:column>
+				        <p:column headerText="Referencia">
+				            <h:outputText value="#{ser.nomSer}" />
+				        </p:column>
+				        <p:column headerText="Monto Servicio" >
+				            <h:outputText value="#{ser.monSer}" />
+				        </p:column>
+				        <p:column headerText="Estado">
+				            <h:outputText value="#{ser.estSer}" />
+				        </p:column>
+				        <p:column headerText="Opciones">
+				            <p:commandButton icon="ui-icon-document" title="Ver Modalidad" actionListener="#{servicioController.verServicio}">
+				            	<f:setPropertyActionListener value="#{ser.codSer}" target="#{servicioController.codSer}" />
+				            	<f:setPropertyActionListener value="0" target="#{servicioController.grabar}"/>  
+				            </p:commandButton>                  				 
+				            <p:commandButton icon="ui-icon-pencil" title="Modificar Modalidad" actionListener="#{servicioController.verServicio}" >
+				            	<f:setPropertyActionListener value="#{ser.codSer}" target="#{servicioController.codSer}" />
+				            	<f:setPropertyActionListener value="0" target="#{servicioController.grabar}"/>
+				            </p:commandButton>
+				            <p:commandButton icon="ui-icon-cancel" title="Eliminar Modalidad" actionListener="#{servicioController.eliminarServicio}">
+				            	<p:confirm header="Confirmación" message="Desea dar de baja esta modalidad?" icon="ui-icon-alert" />
+				            	<f:setPropertyActionListener value="#{ser.codSer}" target="#{servicioController.codSer}" />
+				            </p:commandButton>
+				        </p:column>
+	    			</p:dataTable>
+		    	</div>
+		    	<div class="margen">
+		    		<p:commandButton icon="ui-icon-plus" title="Nuevo Servicio" actionListener="#{servicioController.cargarClave}" value="Nuevo Cliente" styleClass="ui-priority-primary" update=":nvo_servicio" />
+		    	</div>
+			</h:form>
+		</p:panel>
+		
+		<p:dialog id="nvo_servicio" showHeader="false" widgetVar="dlg_servicio" width="500">
+			<ui:include src="/frm/frmServicio.xhtml" />
+		</p:dialog>
+		
+	</ui:define>
+</ui:composition>

@@ -7,77 +7,60 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 	<ui:define name="titulo">
-    	Ingreso Clientes
+    	Registro de modalidades
     </ui:define>
 	<ui:define name="cuerpo">
-	
-		<p:panel header="REGISTRO CLIENTES" styleClass="margen sin_borde">
-			<h:form id="frm_cliente" prependId="false">
+		<p:panel header="MODALIDADES DE PAGO" styleClass="margen sin_borde">
+			<h:form id="frm_modalidad" prependId="false">
 				<div class="margen row">
 					<p:outputLabel value=" Busqueda : "
 						styleClass="negrita espacio_comp one seventh" />
-					<p:inputText value="#{clienteController.valBus}" styleClass="negrita espacio_comp three sevenths">
-						<p:ajax update="tbl_clientes,:mensajes" event="keyup" listener="#{clienteController.cargarLista}"/>
+					<p:inputText value="#{modalidadController.valBus}" styleClass="negrita espacio_comp three sevenths">
+						<p:ajax update="tbl_modalidades,:mensajes" event="keyup" listener="#{modalidadController.cargarLista}"/>
 					</p:inputText>
 				</div>
-				<div class="margen row">
-					<p:outputLabel value=" Tipo persona : "
-						styleClass="negrita espacio_comp one seventh" />
-					<p:selectOneRadio id="rdb_bustipoper"
-						value="#{clienteController.tipoPer}" styleClass="four sevenths">
-						<f:selectItem itemLabel="Persona Natural" itemValue="1" />
-						<f:selectItem itemLabel="Persona Jurídica" itemValue="2" />
-						<p:ajax listener="#{clienteController.campoBusqueda}" event="change" />
-					</p:selectOneRadio>
-				</div>
 				<div class="margen">
-		    		<p:dataTable id="tbl_clientes" paginator="true" lazy="true" 
+		    		<p:dataTable id="tbl_modalidades" paginator="true" lazy="true" 
 			    		rows="10" paginatorPosition="bottom" 
-			    		emptyMessage="No hay coincidencias !!" var="cli"
-			    		value="#{clienteController.modelCliente}"
+			    		emptyMessage="No hay coincidencias !!" var="moda"
+			    		value="#{modalidadController.modelModalidad}"
 			    		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
-				        <p:column headerText="Cod. Cliente">
-				            <h:outputText value="#{cli.codigoCliente}" />
+				        <p:column headerText="Cod. Modalidad">
+				            <h:outputText value="#{moda.codMod}" />
 				        </p:column>
-				        <p:column headerText="Nombre Cliente" rendered="#{clienteController.verCampo}">
-				            <h:outputText value="#{cli.nombreCliente} #{cli.apellidoCliente}" />
+				        <p:column headerText="Referencia">
+				            <h:outputText value="#{moda.nomMod}" />
 				        </p:column>
-				        <p:column headerText="DNI" rendered="#{clienteController.verCampo}">
-				            <h:outputText value="#{cli.dni}" />
+				        <p:column headerText="Días Modalidad" >
+				            <h:outputText value="#{moda.diaMod}" />
 				        </p:column>
-				        <p:column headerText="Razón Social" rendered="#{!clienteController.verCampo}">
-				            <h:outputText value="#{cli.razonSocial}" />
-				        </p:column>
-				        <p:column headerText="RUC" rendered="#{!clienteController.verCampo}">
-				            <h:outputText value="#{cli.rucCliente}" />
-				        </p:column>
-				        <p:column headerText="Dirección">
-				            <h:outputText value="#{cli.direccionCliente}" />
+				        <p:column headerText="Estado">
+				            <h:outputText value="#{moda.estMod}" />
 				        </p:column>
 				        <p:column headerText="Opciones">
-				            <p:commandButton icon="ui-icon-document" title="Ver Cliente" actionListener="#{clienteController.verCliente}">
-				            	<f:setPropertyActionListener value="#{cli.codigoCliente}" target="#{clienteController.codCli}" />
-				            	<f:setPropertyActionListener value="0" target="#{clienteController.grabar}"/>  
+				            <p:commandButton icon="ui-icon-document" title="Ver Modalidad" actionListener="#{modalidadController.verModalidad}">
+				            	<f:setPropertyActionListener value="#{moda.codMod}" target="#{modalidadController.codMod}" />
+				            	<f:setPropertyActionListener value="0" target="#{modalidadController.grabar}"/>  
 				            </p:commandButton>                  				 
-				            <p:commandButton icon="ui-icon-pencil" title="Modificar Cliente" actionListener="#{clienteController.verCliente}" >
-				            	<f:setPropertyActionListener value="#{cli.codigoCliente}" target="#{clienteController.codCli}" />
-				            	<f:setPropertyActionListener value="1" target="#{clienteController.grabar}"/>
+				            <p:commandButton icon="ui-icon-pencil" title="Modificar Modalidad" actionListener="#{modalidadController.verModalidad}" >
+				            	<f:setPropertyActionListener value="#{moda.codMod}" target="#{modalidadController.codMod}" />
+				            	<f:setPropertyActionListener value="1" target="#{modalidadController.grabar}"/>
 				            </p:commandButton>
-				            <p:commandButton icon="ui-icon-cancel" title="Eliminar Cliente" actionListener="#{clienteController.eliminarCliente}">
-				            	<p:confirm header="Confirmación" message="Desea dar de baja al cliente?" icon="ui-icon-alert" />
-				            	<f:setPropertyActionListener value="#{cli.codigoCliente}" target="#{clienteController.codCli}" />
+				            <p:commandButton icon="ui-icon-cancel" title="Eliminar Modalidad" actionListener="#{modalidadController.eliminarModalidad}">
+				            	<p:confirm header="Confirmación" message="Desea dar de baja esta modalidad?" icon="ui-icon-alert" />
+				            	<f:setPropertyActionListener value="#{moda.codMod}" target="#{modalidadController.codMod}" />
 				            </p:commandButton>
 				        </p:column>
 	    			</p:dataTable>
 		    	</div>
 		    	<div class="margen">
-		    		<p:commandButton icon="ui-icon-plus" title="Nuevo Cliente" actionListener="#{clienteController.cargarClave}" value="Nuevo Cliente" styleClass="ui-priority-primary" update=":nvo_cliente" />
+		    		<p:commandButton icon="ui-icon-plus" title="Nueva Modalidad" actionListener="#{modalidadController.cargarClave}" value="Nueva Modalidad" styleClass="ui-priority-primary" update=":nva_modalidad" />
 		    	</div>
 			</h:form>
 		</p:panel>
 		
-		<p:dialog id="nvo_cliente" showHeader="false" widgetVar="dlg_cliente" width="900">
-			<ui:include src="/frm/frmCliente.xhtml" />
+		<p:dialog id="nva_modalidad" showHeader="false" widgetVar="dlg_modalidad" width="700">
+			<ui:include src="/frm/frmModalidad.xhtml" />
 		</p:dialog>
 		
 	</ui:define>

@@ -6,51 +6,51 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 	<h:form id="ing_modalidad" prependId="false">
-		<p:panel header="Nueva Modalidad">
+		<p:panel header="Nuevo Servicio">
 			<div class="margen row">
 				<p:outputLabel value="Código : "
 					styleClass="negrita espacio_comp one fourth" />
-				<p:outputLabel value="#{modalidadController.codMod}"
+				<p:outputLabel value="#{servicioController.codSer}"
 					styleClass="one fourth" />
 			</div>
 			<div class="margen row">
 				<p:outputLabel value="Referencia : "
 					styleClass="negrita espacio_comp one fourth" />
-				<p:inputText value="#{modalidadController.modalidad.nommod}" styleClass="two fourths" readonly="#{modalidadController.read}"/>
+				<p:inputText value="#{servicioController.servicio.nomser}" styleClass="two fourths" readonly="#{servicioController.read}"/>
 			</div>
 			<div class="margen row">
-				<p:outputLabel value="Dias : " styleClass="negrita espacio_comp one fourth" />
-				<p:inputText value="#{modalidadController.modalidad.desmod}" styleClass="one fourth" readonly="#{modalidadController.read}" />
-				<p:outputLabel value="Activa: " styleClass="negrita espacio_comp one fourth"/>
-        		<p:selectBooleanCheckbox value="#{modalidadController.modaActiva}" styleClass=" espacio_comp one fourth" readonly="#{modalidadController.read}"/>
+				<p:outputLabel value="Precio : " styleClass="negrita espacio_comp one fourth" />
+				<p:inputText value="#{servicioController.servicio.monser}" styleClass="one fourth" readonly="#{servicioController.read}" />
+				<p:outputLabel value="Activo: " styleClass="negrita espacio_comp one fourth"/>
+        		<p:selectBooleanCheckbox value="#{servicioController.serActivo}" styleClass="espacio_comp one fourth" readonly="#{servicioController.read}"/>
 			</div>
 			<div class="margen row">
 				<p:outputLabel value="Descripcion : " styleClass="negrita espacio_comp one fourth" />
 			</div>
 			<div class="margen row">
-				<p:inputTextarea rows="5" cols="30" counter="display" maxlength="150" counterTemplate="{0} caracteres restantes." autoResize="false" styleClass="four fourths" value="#{modalidadController.modalidad.desmod}" readonly="#{modalidadController.read}"/>
+				<p:inputTextarea rows="5" cols="30" counter="display" maxlength="150" counterTemplate="{0} caracteres restantes." autoResize="false" styleClass="four fourths" value="#{servicioController.servicio.desser}" readonly="#{servicioController.read}"/>
     			<h:outputText id="display" />
 			</div>
 		</p:panel>
 		<div class="margen">
 			<h:panelGroup id="png_guardar"
-				rendered="#{modalidadController.verGuar}">
+				rendered="#{servicioController.verGuar}">
 				<p:commandButton id="btnGuar" value="Guardar" icon="ui-icon-check"
-					actionListener="#{modalidadController.saveModalidad}"
+					actionListener="#{servicioController.saveServicio}"
 					styleClass="ui-priority-primary" update=":mensajes">
 					<p:confirm header="Confirmación" message="Desea guardar los datos?"
 						icon="ui-icon-alert" />
 				</p:commandButton>
 			</h:panelGroup>
 			<h:panelGroup id="png_actualiza"
-				rendered="#{modalidadController.verActualizar}">
-				<p:commandButton id="btnActu" value="Actualizar" actionListener="#{modalidadController.actualizarModalidad}"
+				rendered="#{servicioController.verActualizar}">
+				<p:commandButton id="btnActu" value="Actualizar" actionListener="#{servicioController.actualizarServicio}"
 					icon="ui-icon-check" styleClass="ui-priority-primary" >
 					<p:confirm header="Confirmación" message="Desea actualizar los datos?"
 						icon="ui-icon-alert" />
 				</p:commandButton>
 			</h:panelGroup>
-			<p:commandButton id="btnSalir" value="Salir" actionListener="#{modalidadController.salir}"
+			<p:commandButton id="btnSalir" value="Salir" actionListener="#{servicioController.salir}"
 				icon="ui-icon-closethick" styleClass="ui-priority-primary" update=":frm_modalidad" />
 		</div>
 	</h:form>

@@ -17,7 +17,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import pe.com.gym.delegate.Gym;
-import pe.com.gym.entidades.ModalidadPago;
+import pe.com.gym.entidades.Servicio;
 import pe.com.gym.util.Js;
 import pe.com.gym.util.Message;
 
@@ -28,75 +28,73 @@ import pe.com.gym.util.Message;
 
 @ManagedBean
 @ViewScoped
-public class ModalidadController implements Serializable {
+public class ServicioController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(ModalidadController.class.getName());
+	private static final Logger logger = Logger.getLogger(ServicioController.class.getName());
 	private int primero;
 	private int ultimo;
 	private int grabar;
-	private long codMod;
-	private boolean modaActiva;
+	private int codSer;
+	private boolean serActivo;
 	private boolean verGuar;
 	private boolean verActualizar;
 	private boolean read;
 	private String valBus;
-	private ModalidadPago modalidad;
-	private List<ModalidadPago> modalidades;
-	private List<ModalidadPago> modalidades_activas;
-	private LazyDataModel<ModalidadPago> modelModalidad;
+	private Servicio servicio;
+	private List<Servicio> servicios;
+	private LazyDataModel<Servicio> modelServicio;
 
-	public ModalidadController() {
+	public ServicioController() {
 	}
 
 	@PostConstruct
 	public void init() {
-		modalidad = new ModalidadPago();
 		verGuar = true;
 		verActualizar = false;
 		read = false;
 	}
 
 	public void cargarClave() {
-		modalidad = new ModalidadPago();
-		codMod = Gym.INSTANCE.getCodigoModalidadNva();
-		if (codMod != 0) {
-			Js.execute("PF('dlg_modalidad').show()");
+		servicio = new Servicio();
+		codSer = Gym.INSTANCE.getCodigoServicioNvo();
+		if (codSer != 0) {
+			Js.execute("PF('dlg_servicio').show()");
 		} else
-			Message.addError(null, "Error al cargar código de modalidad.");
+			Message.addError(null, "Error al cargar código de Servicio");
 		Js.update("mensajes");
 	}
 	
-	public void saveModalidad(){
+	public void saveServicio(){
 		if (validarDatos()) {
 			int res = 0;
-			modalidad.setCodmod(codMod);
-			modalidad.setUsureg("");
-			modalidad.setFecreg(new java.sql.Date(new java.util.Date().getTime()));
-			res = Gym.INSTANCE.registraModalidad(modalidad);
+			servicio.setCodser(codSer);
+			servicio.setUsureg("");
+			servicio.setFecreg(new java.sql.Date(new java.util.Date().getTime()));
+			res = Gym.INSTANCE.registraServicio(servicio);
 			switch (res) {
 			case 0:
-				Message.addInfo(null, "Modalidad registrada correctamente !!!");
+				Message.addInfo(null, "Servicio registrado correctamente !!!");
 				break;
 
 			default:
-				Message.addError(null, "Error al guardar modalidad !!!");
+				Message.addError(null, "Error al guarda servicio !!!");
 				break;
 			}
 		}
 	}
 	
-	public void actualizarModalidad(){
+	public void actualizarServicio(){
 		int res = 0;
 		try {
-			if(modalidad!=null){
-				res = Gym.INSTANCE.actualizaModalidad(modalidad);
+			if(servicio!=null){
+				res = Gym.INSTANCE.actualizaServicio(servicio);
 				switch (res) {
 					case 0:
 						Message.addInfo(null, "Se actualizó correctamenete !!!");
 						break;
 					default:
-						Message.addError(null, "Error al actualizar modalidad !!!.");
+						Message.addError(null, "Error al actualizar servicio !!!");
 						break;
 				}
 			}
@@ -106,22 +104,22 @@ public class ModalidadController implements Serializable {
 		Js.update("mensajes");
 	}
 	
-	public void eliminarModalidad(){
+	public void eliminarServicio(){
 		int res = 0;
 		try {
-			if(codMod!=0){
-				res = Gym.INSTANCE.cambiaEstadoModalidad(codMod, 1);
+			if(codSer!=0){
+				res = Gym.INSTANCE.cambiaEstadoModalidad(codSer, 1);
 				switch (res) {
 					case 0:
-						Message.addInfo(null, "Se dió de baja esta modalidad !!!");
+						Message.addInfo(null, "Se dió de baja el servicio !!!");
 						break;
 					default:
-						Message.addError(null, "Error al dar de baja esta modalidad !!!");
+						Message.addError(null, "Error al dar de baja servicio !!!");
 						break;
 				}
 			}
 		} catch (Exception e) {
-			Message.addError(null, "Error al eliminar el cliente.");
+			Message.addError(null, "Error al dar de baja servicio !!!");
 		}
 		Js.update("mensajes");
 	}
@@ -129,7 +127,7 @@ public class ModalidadController implements Serializable {
 	public void salir(){
 		limpiarformulario();
 		reiniciarflags();
-		Js.execute("PF('dlg_modalidad').hide()");
+		Js.execute("PF('dlg_servicio').hide()");
 	}
 	
 	public void reiniciarflags() {
@@ -138,28 +136,28 @@ public class ModalidadController implements Serializable {
 	}
 
 	public void limpiarformulario() {
-		codMod = 0;
-		modalidad = null;
+		codSer = 0;
+		servicio = null;
 	}
 	
 	public void cargarLista() {
-		loadLazyModelModalidades();
+		loadLazyModelServicios();
 	}
 
 	public boolean validarDatos() {
-		if (modalidad.getNommod().trim().equals(""))
+		if (servicio.getNomser().trim().equals(""))
 			Message.addError(null, "Ingrese referencia.");
-		if (modalidad.getDiamod() == 0)
+		if (servicio.getMonser() == 0)
 			Message.addError(null, "Ingrese días de la modalidad.");
-		if (modalidad.getDesmod().equals(""))
+		if (servicio.getDesser().equals(""))
 			Message.addError(null, "Ingrese dni.");
-		if (codMod == 0)
+		if (codSer == 0)
 			Message.addError(null, "No se generó código de cliente.");
 		return !Message.hayMensajes();
 	}
 	
-	public void loadLazyModelModalidades() {
-		modelModalidad = new LazyDataModel<ModalidadPago>() {
+	public void loadLazyModelServicios() {
+		modelServicio = new LazyDataModel<Servicio>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -172,22 +170,22 @@ public class ModalidadController implements Serializable {
 			}
 
 			@Override
-			public ModalidadPago getRowData(String rowKey) {
+			public Servicio getRowData(String rowKey) {
 				return null;
 			}
 
 			@Override
-			public Object getRowKey(ModalidadPago dto) {
+			public Object getRowKey(Servicio dto) {
 				return null;
 			}
 
 			@Override
-			public List<ModalidadPago> load(int first, int pageSize,
+			public List<Servicio> load(int first, int pageSize,
 					String string, SortOrder so, Map<String, Object> map) {
 				primero = first;
 				ultimo = pageSize + first;
 				loadData();
-				return modalidades;
+				return servicios;
 			}
 		};
 	}
@@ -202,9 +200,9 @@ public class ModalidadController implements Serializable {
 		try {
 			map = Gym.INSTANCE.listaModalidades(valBus, limites);
 			if (map != null && !map.isEmpty()) {
-				modalidades = (List<ModalidadPago>) map.get("MODALIDADES");
+				servicios = (List<Servicio>) map.get("SERVICIOS");
 				count = (Integer) map.get("TOTAL");
-				modelModalidad.setRowCount(count);
+				modelServicio.setRowCount(count);
 			} else
 				Message.addInfo(null, "No se encontraron coincidencias!!");
 		} catch (Exception ex) {
@@ -212,7 +210,7 @@ public class ModalidadController implements Serializable {
 		}
 	}
 	
-	public void verModalidad(){
+	public void verServicio(){
 		if(grabar==1){
 			verActualizar = true;
 			read = false;
@@ -223,9 +221,9 @@ public class ModalidadController implements Serializable {
 		}
 		verGuar = false;
 		try {
-			modalidad = Gym.INSTANCE.getModalidad(codMod);
-			if(modalidad!=null){
-				codMod = modalidad.getCodmod();
+			servicio = Gym.INSTANCE.getServicio(codSer);
+			if(servicio!=null){
+				codSer = servicio.getCodser();
 				Js.update("ing_modalidad");
 				Js.execute("PF('dlg_modalidad').show()");
 			}else
@@ -236,28 +234,20 @@ public class ModalidadController implements Serializable {
 		Js.update("mensajes");	
 	}
 
-	public ModalidadPago getModalidad() {
-		return modalidad;
+	public int getGrabar() {
+		return grabar;
 	}
 
-	public void setModalidad(ModalidadPago modalidad) {
-		this.modalidad = modalidad;
+	public void setGrabar(int grabar) {
+		this.grabar = grabar;
 	}
 
-	public long getCodMod() {
-		return codMod;
+	public int getCodSer() {
+		return codSer;
 	}
 
-	public void setCodMod(long codMod) {
-		this.codMod = codMod;
-	}
-
-	public boolean isModaActiva() {
-		return modaActiva;
-	}
-
-	public void setModaActiva(boolean modaActiva) {
-		this.modaActiva = modaActiva;
+	public void setCodSer(int codSer) {
+		this.codSer = codSer;
 	}
 
 	public boolean isVerGuar() {
@@ -276,20 +266,12 @@ public class ModalidadController implements Serializable {
 		this.verActualizar = verActualizar;
 	}
 
-	public List<ModalidadPago> getModalidades_activas() {
-		return modalidades_activas;
+	public boolean isRead() {
+		return read;
 	}
 
-	public void setModalidades_activas(List<ModalidadPago> modalidades_activas) {
-		this.modalidades_activas = modalidades_activas;
-	}
-
-	public LazyDataModel<ModalidadPago> getModelModalidad() {
-		return modelModalidad;
-	}
-
-	public void setModelModalidad(LazyDataModel<ModalidadPago> modelModalidad) {
-		this.modelModalidad = modelModalidad;
+	public void setRead(boolean read) {
+		this.read = read;
 	}
 
 	public String getValBus() {
@@ -300,20 +282,28 @@ public class ModalidadController implements Serializable {
 		this.valBus = valBus;
 	}
 
-	public int getGrabar() {
-		return grabar;
+	public Servicio getServicio() {
+		return servicio;
 	}
 
-	public void setGrabar(int grabar) {
-		this.grabar = grabar;
+	public void setServicio(Servicio servicio) {
+		this.servicio = servicio;
 	}
 
-	public boolean isRead() {
-		return read;
+	public LazyDataModel<Servicio> getModelServicio() {
+		return modelServicio;
 	}
 
-	public void setRead(boolean read) {
-		this.read = read;
+	public void setModelServicio(LazyDataModel<Servicio> modelServicio) {
+		this.modelServicio = modelServicio;
+	}
+
+	public boolean isSerActivo() {
+		return serActivo;
+	}
+
+	public void setSerActivo(boolean serActivo) {
+		this.serActivo = serActivo;
 	}
 	
 }
