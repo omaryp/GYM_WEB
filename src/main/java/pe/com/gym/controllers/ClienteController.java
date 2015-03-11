@@ -114,7 +114,7 @@ public class ClienteController implements Serializable {
 	public void cargarClave() {
 		cargaEmpresas();
 		cliente = new Cliente();
-		cliente.setCodigoCliente(new Long(0));
+		cliente.setCodcli(0);
 		codCli = Gym.INSTANCE.getCodigoClienteNvo();
 		if (codCli != 0) {
 			Js.execute("PF('dlg_cliente').show()");
@@ -130,18 +130,18 @@ public class ClienteController implements Serializable {
 	public void saveCliente() {
 		if (validarDatos()) {
 			int res = 0;
-			cliente.setCodigoCliente(codCli);
-			cliente.setUsuarioRegistro("");
+			cliente.setCodcli(codCli);
+			cliente.setUsureg("");
 			switch (tipoPer) {
 			case 1:
-				cliente.setTipoPersona("N");
-				cliente.setHoraInicioRutina(new Time(horaIni.getTime()));
-				cliente.setHoraFinRutina(new Time(horaFin.getTime()));
-				cliente.setRutaFoto("");
+				cliente.setTipper("N");
+				cliente.setHoinru(new Time(horaIni.getTime()));
+				cliente.setHofiru(new Time(horaFin.getTime()));
+				cliente.setRutfot("");
 				break;
 			case 2:
-				cliente.setTipoPersona("J");
-				cliente.setDniRepLegal("");
+				cliente.setTipper("J");
+				cliente.setDnirepl("");
 				break;
 			}
 			res = Gym.INSTANCE.guardarCliente(cliente);
@@ -160,13 +160,13 @@ public class ClienteController implements Serializable {
 	public boolean validarDatos() {
 		switch (tipoPer) {
 		case 1:
-			if (cliente.getNombreCliente() .trim().equals(""))
+			if (cliente.getNomcli().trim().equals(""))
 				Message.addError(null, "Ingrese nombres.");
-			if (cliente.getApellidoCliente().trim().equals(""))
+			if (cliente.getApecli().trim().equals(""))
 				Message.addError(null, "Ingrese apellidos.");
-			if (cliente.getDni().trim().equals(""))
+			if (cliente.getDnicli().trim().equals(""))
 				Message.addError(null, "Ingrese dni.");
-			else if (cliente.getDni().trim().length() != 8)
+			else if (cliente.getDnicli().trim().length() != 8)
 				Message.addError(null, "Ingrese dni correcto.");
 			if (horaIni == null)
 				Message.addError(null, "Ingrese hora inicio de rutina.");
@@ -178,11 +178,11 @@ public class ClienteController implements Serializable {
 			}
 			break;
 		case 2:
-			if (cliente.getRazonSocial().trim().equals(""))
+			if (cliente.getRazsoc().trim().equals(""))
 				Message.addError(null, "Ingrese Razón Social.");
-			if (cliente.getRepLegal().trim().equals(""))
+			if (cliente.getRepleg().trim().equals(""))
 				Message.addError(null, "Ingrese Representante Legal.");
-			if (cliente.getRucCliente() .trim().equals(""))
+			if (cliente.getRuccli() .trim().equals(""))
 				Message.addError(null, "Ingrese ruc.");
 			break;
 		}
@@ -282,18 +282,18 @@ public class ClienteController implements Serializable {
 		try {
 			cliente = Gym.INSTANCE.getCliente(sTipPer, codCli);
 			if(cliente!=null){
-				switch (cliente.getTipoPersona().charAt(0)) {
+				switch (cliente.getTipper().charAt(0)) {
 					case 'N':
 						cargaEmpresas();
-						horaIni = new Date(cliente.getHoraInicioRutina().getTime());
-						horaFin = new Date(cliente.getHoraFinRutina().getTime());
+						horaIni = new Date(cliente.getHoinru().getTime());
+						horaFin = new Date(cliente.getHofiru().getTime());
 						break;
 					case 'J':
 						verPj = true;
 						verPn = false;
 						break;
 				}
-				codCli = cliente.getCodigoCliente();
+				codCli = cliente.getCodcli();
 				Js.update("ing_cliente");
 				Js.execute("PF('dlg_cliente').show()");
 			}else
@@ -308,8 +308,8 @@ public class ClienteController implements Serializable {
 		int res = 0;
 		try {
 			if(cliente!=null){
-				cliente.setHoraInicioRutina(new Time(horaIni.getTime()));
-				cliente.setHoraFinRutina(new Time(horaFin.getTime()));
+				cliente.setHoinru(new Time(horaIni.getTime()));
+				cliente.setHofiru(new Time(horaFin.getTime()));
 				res = Gym.INSTANCE.actualizaCliente(sTipPer, cliente);
 				switch (res) {
 					case 0:

@@ -28,29 +28,29 @@
 				<div class="margen row">
 					<p:outputLabel value="Nombres : "
 						styleClass="negrita espacio_comp one fourth" />
-					<p:inputText value="#{clienteController.cliente.nombreCliente}" readonly="#{clienteController.read}"
+					<p:inputText value="#{clienteController.cliente.nomcli}" readonly="#{clienteController.read}"
 						styleClass="two fourths" />
 				</div>
 				<div class="margen row">
 					<p:outputLabel value="Apellidos : "
 						styleClass="negrita espacio_comp one fourth" />
-					<p:inputText value="#{clienteController.cliente.apellidoCliente}" readonly="#{clienteController.read}"
+					<p:inputText value="#{clienteController.cliente.apecli}" readonly="#{clienteController.read}"
 						styleClass="two fourths" />
 				</div>
 				<div class="margen row">
 					<p:outputLabel value="DNI : "
 						styleClass="negrita espacio_comp one fourth" />
-					<p:inputText value="#{clienteController.cliente.dni}" readonly="#{clienteController.read}"
+					<p:inputText value="#{clienteController.cliente.dnicli}" readonly="#{clienteController.read}"
 						styleClass="one fourth" />
 					<p:outputLabel value="Telefono : "
 						styleClass="negrita espacio_comp one fourth" />
-					<p:inputText value="#{clienteController.cliente.telefonoCliente}" readonly="#{clienteController.read}"
+					<p:inputText value="#{clienteController.cliente.telef1}" readonly="#{clienteController.read}"
 						styleClass="one fourth" />
 				</div>
 				<div class="margen row">
 					<p:outputLabel value="Dirección : "
 						styleClass="negrita espacio_comp one fourth" />
-					<p:inputText value="#{clienteController.cliente.direccionCliente}" readonly="#{clienteController.read}"
+					<p:inputText value="#{clienteController.cliente.dircli}" readonly="#{clienteController.read}"
 						styleClass="three fourths" />
 				</div>
 				<div class="margen row">
@@ -68,7 +68,7 @@
 				<div class="margen row">
 					<p:outputLabel value="Empresa : "
 						styleClass="negrita espacio_comp one fourth"  />
-					<p:selectOneMenu styleClass="three fourths" value="#{clienteController.cliente.clienteEmpresa}" disabled="#{clienteController.read}">
+					<p:selectOneMenu styleClass="three fourths" value="#{clienteController.cliente.cliemp}" disabled="#{clienteController.read}">
 						<f:selectItem itemLabel="Seleccione empresa" itemValue="-1" />
 						<f:selectItems value="#{clienteController.empresas}" var="pj"
 							itemLabel="#{pj.razonSocial}" itemValue="#{pj.codigoCliente}" />
@@ -79,29 +79,29 @@
 				<div class="margen row">
 					<p:outputLabel value="Razon Social : "
 						styleClass="negrita espacio_comp one fourth" />
-					<p:inputText value="#{clienteController.cliente.razonSocial}" readonly="#{clienteController.read}"
+					<p:inputText value="#{clienteController.cliente.razsoc}" readonly="#{clienteController.read}"
 						styleClass="three fourths" />
 				</div>
 				<div class="margen row">
 					<p:outputLabel value="Rep. Legal : "
 						styleClass="negrita espacio_comp one fourth" />
-					<p:inputText value="#{clienteController.cliente.repLegal}" readonly="#{clienteController.read}"
+					<p:inputText value="#{clienteController.cliente.repleg}" readonly="#{clienteController.read}"
 						styleClass="three fourths" />
 				</div>
 				<div class="margen row">
 					<p:outputLabel value="RUC : "
 						styleClass="negrita espacio_comp one fourth" />
-					<p:inputText value="#{clienteController.cliente.rucCliente}" readonly="#{clienteController.read}"
+					<p:inputText value="#{clienteController.cliente.ruccli}" readonly="#{clienteController.read}"
 						styleClass="one fourth" />
 					<p:outputLabel value="Telefono : "
 						styleClass="negrita espacio_comp one fourth" />
-					<p:inputText value="#{clienteController.cliente.telefonoCliente}" readonly="#{clienteController.read}"
+					<p:inputText value="#{clienteController.cliente.telef1}" readonly="#{clienteController.read}"
 						styleClass="one fourth" />
 				</div>
 				<div class="margen row">
 					<p:outputLabel value="Dirección : "
 						styleClass="negrita espacio_comp one fourth" />
-					<p:inputText value="#{clienteController.cliente.direccionCliente}" readonly="#{clienteController.read}"
+					<p:inputText value="#{clienteController.cliente.dircli}" readonly="#{clienteController.read}"
 						styleClass="three fourths" />
 				</div>
 			</h:panelGroup>

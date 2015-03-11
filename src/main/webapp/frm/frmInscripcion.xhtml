@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<h:form id="ing_modalidad" prependId="false">
+		<p:panel header="Nueva Modalidad">
+			<div class="margen row">
+				<p:outputLabel value="Código : "
+					styleClass="negrita espacio_comp one fourth" />
+				<p:outputLabel value="#{modalidadController.codMod}"
+					styleClass="one fourth" />
+			</div>
+			<div class="margen row">
+				<p:outputLabel value="Referencia : "
+					styleClass="negrita espacio_comp one fourth" />
+				<p:inputText value="#{modalidadController.modalidad.nommod}" styleClass="two fourths" readonly="#{modalidadController.read}"/>
+			</div>
+			<div class="margen row">
+				<p:outputLabel value="Dias : " styleClass="negrita espacio_comp one fourth" />
+				<p:inputText value="#{modalidadController.modalidad.desmod}" styleClass="two fourths" readonly="#{modalidadController.read}" />
+				<p:outputLabel value="Activa: " styleClass="negrita espacio_comp one fourth"/>
+        		<p:selectBooleanCheckbox value="#{modalidadController.modaActiva}" styleClass="one fourth" readonly="#{modalidadController.read}"/>
+			</div>
+			<div class="margen row">
+				<p:outputLabel value="Descripcion : " styleClass="negrita espacio_comp one fourth" />
+			</div>
+			<div class="margen row">
+				<p:inputTextarea rows="5" cols="30" counter="display" maxlength="150" counterTemplate="{0} caracteres restantes." autoResize="false" styleClass="four fourths" value="#{modalidadController.modalidad.desmod}" readonly="#{modalidadController.read}"/>
+    			<h:outputText id="display" />
+			</div>
+		</p:panel>
+		<div class="margen">
+			<h:panelGroup id="png_guardar"
+				rendered="#{modalidadController.verGuar}">
+				<p:commandButton id="btnGuar" value="Guardar" icon="ui-icon-check"
+					actionListener="#{modalidadController.saveModalidad}"
+					styleClass="ui-priority-primary" update=":mensajes">
+					<p:confirm header="Confirmación" message="Desea guardar los datos?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+			</h:panelGroup>
+			<h:panelGroup id="png_actualiza"
+				rendered="#{modalidadController.verActualizar}">
+				<p:commandButton id="btnActu" value="Actualizar" actionListener="#{modalidadController.actualizarModalidad}"
+					icon="ui-icon-check" styleClass="ui-priority-primary" >
+					<p:confirm header="Confirmación" message="Desea actualizar los datos?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+			</h:panelGroup>
+			<p:commandButton id="btnSalir" value="Salir" actionListener="#{modalidadController.salir}"
+				icon="ui-icon-closethick" styleClass="ui-priority-primary" update=":frm_modalidad" />
+		</div>
+	</h:form>
+
+</ui:composition>
