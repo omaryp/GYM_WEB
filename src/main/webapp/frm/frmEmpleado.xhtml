@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<h:form id="ing_empleado" prependId="false">
+		<p:panel header="Nuevo Empleado">
+			<fieldset>
+			<legend>Datos Empleado</legend>
+				<div class="margen row">
+					<p:outputLabel value="Código : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:outputLabel value="#{empleadoController.codEmp}"
+						styleClass="one fourth" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Nombres : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{empleadoController.empleado.nomemp}" readonly="#{empleadoController.read}"
+						styleClass="two fourths" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Apellidos : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{empleadoController.empleado.apeemp}" readonly="#{empleadoController.read}"
+						styleClass="two fourths" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="DNI : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{empleadoController.empleado.dniemp}" readonly="#{empleadoController.read}"
+						styleClass="one fourth" />
+					<p:outputLabel value="Fec. Nacimiento : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:calendar value="#{empleadoController.empleado.fecnac}" showOn="button" readonly="#{empleadoController.read}"
+						styleClass="one fourth" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Perfil : "
+						styleClass="negrita espacio_comp one fourth"  />
+					<p:selectOneMenu styleClass="three fourths" value="#{empleadoController.codPer}" disabled="#{em.read}">
+						<f:selectItem itemLabel="Seleccione perfil" itemValue="-1" />
+						<f:selectItems value="#{empleadoController.perfiles}" var="per"
+							itemLabel="#{per.nomper}" itemValue="#{per.codper}" />
+					</p:selectOneMenu>
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Dirección : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{empleadoController.empleado.diremp}" readonly="#{empleadoController.read}"
+						styleClass="three fourths" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Activo : " styleClass="negrita espacio_comp one fourth"/>
+	        		<p:selectBooleanCheckbox value="#{perfilController.perfilActivo}" styleClass=" espacio_comp one fourth" readonly="#{perfilController.read}"/>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Usuario</legend>
+				<div class="margen row">
+					<p:outputLabel value="Usuario : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{empleadoController.usuario.usuemp}" readonly="#{empleadoController.read}"
+						styleClass="one fourth" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Password : " styleClass="negrita espacio_comp one fourth" />
+					<p:password value="#{empleadoController.usuario.pasemp}" readonly="#{empleadoController.read}" styleClass="one fourth" />
+					<p:outputLabel value="Confirme : " styleClass="negrita espacio_comp one fourth" />
+					<p:password value="#{empleadoController.empleado.fecnac}" showOn="button" readonly="#{empleadoController.read}" styleClass="one fourth" />
+				</div>
+			</fieldset>
+		</p:panel>
+		<div class="margen">
+			<h:panelGroup id="png_guardar"
+				rendered="#{empleadoController.verGuar}">
+				<p:commandButton id="btnGuar" value="Guardar" icon="ui-icon-check"
+					actionListener="#{empleadoController.saveEmpleado}"
+					styleClass="ui-priority-primary" update=":mensajes">
+					<p:confirm header="Confirmación" message="Desea guardar los datos?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+			</h:panelGroup>
+			<h:panelGroup id="png_actualiza"
+				rendered="#{empleadoController.verActualizar}">
+				<p:commandButton id="btnActu" value="Actualizar" actionListener="#{empleadoController.actualizarEmpleado}"
+					icon="ui-icon-check" styleClass="ui-priority-primary" >
+					<p:confirm header="Confirmación" message="Desea guardar los datos?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+			</h:panelGroup>
+			<p:commandButton id="btnSalir" value="Salir" actionListener="#{empleadoController.salir}"
+				icon="ui-icon-closethick" styleClass="ui-priority-primary" update=":frm_empleado" />
+		</div>
+	</h:form>
+
+</ui:composition>

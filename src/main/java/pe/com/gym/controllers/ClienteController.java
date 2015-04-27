@@ -1,10 +1,6 @@
-/**
- * 
- */
 package pe.com.gym.controllers;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +30,13 @@ import pe.com.gym.util.Message;
 public class ClienteController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger
-			.getLogger(ClienteController.class.getName());
+	private static final Logger logger = Logger.getLogger(ClienteController.class.getName());
 	private int grabar;
+	private int carga;
 	private int ultimo;
 	private int tipoPer;
 	private int primero;
+	private int opcion;
 	private boolean read;
 	private boolean verPn;
 	private boolean verPj;
@@ -48,20 +45,22 @@ public class ClienteController implements Serializable {
 	private boolean verActualizar;
 	private long codCli;
 	private Cliente cliente;
+	private ClienteDTO cli;
 	private String sTipPer;
 	private String valBus;
-	private Date horaIni;
-	private Date horaFin;	
+	private String texto;
 	private List<ClienteDTO> clientes;
 	private List<ClienteDTO> empresas;
 	private LazyDataModel<ClienteDTO> modelCliente;
-
+	
 	public ClienteController() {
 	}
 
 	@PostConstruct
 	public void init() {
 		// se activa persona natural por defecto
+		texto="Nombre : ";
+		opcion = 1;
 		verPn = true;
 		tipoPer = 1;
 		sTipPer = "N";
@@ -124,19 +123,30 @@ public class ClienteController implements Serializable {
 	}
 
 	public void cargarLista() {
+		carga = 1;
 		loadLazyModelClientes();
 	}
-
+	
+	public void buscarCliente() {
+		carga = 2;
+		loadLazyModelClientes();
+	}
+	
+	public void cargaFrmBusqueda(){
+		clientes = null;
+		buscarCliente();
+		Js.execute("PF('dlg_busqueda').show()");
+	}
+	
 	public void saveCliente() {
 		if (validarDatos()) {
 			int res = 0;
 			cliente.setCodcli(codCli);
 			cliente.setUsureg("");
+			cliente.setFecreg(new Date());
 			switch (tipoPer) {
 			case 1:
 				cliente.setTipper("N");
-				cliente.setHoinru(new Time(horaIni.getTime()));
-				cliente.setHofiru(new Time(horaFin.getTime()));
 				cliente.setRutfot("");
 				break;
 			case 2:
@@ -168,14 +178,8 @@ public class ClienteController implements Serializable {
 				Message.addError(null, "Ingrese dni.");
 			else if (cliente.getDnicli().trim().length() != 8)
 				Message.addError(null, "Ingrese dni correcto.");
-			if (horaIni == null)
-				Message.addError(null, "Ingrese hora inicio de rutina.");
-			if (horaFin == null)
-				Message.addError(null, "Ingrese hora fin de rutina.");
-			if (horaIni != null && horaFin != null) {
-				if (horaFin.getTime() <= horaIni.getTime())
-					Message.addError(null, "Hora fin rutina debe ser mayor.");
-			}
+			if (cliente.getFecnac() == null)
+				Message.addError(null, "Ingrese fecha de nacimiento.");
 			break;
 		case 2:
 			if (cliente.getRazsoc().trim().equals(""))
@@ -198,7 +202,14 @@ public class ClienteController implements Serializable {
 		Js.execute("PF('dlg_cliente').hide()");
 	}
 
+	public void salirBusqueda() {
+		clientes = null;
+		Js.execute("PF('dlg_busqueda').hide()");
+	}
+	
 	public void reiniciarflags() {
+		texto="Nombre : ";
+		opcion = 1;
 		tipoPer = 1;
 		sTipPer = "N";
 		verPn = true;
@@ -211,8 +222,6 @@ public class ClienteController implements Serializable {
 
 	public void limpiarformulario() {
 		codCli = 0;
-		horaIni = null;
-		horaFin = null;
 	}
 
 	public void loadLazyModelClientes() {
@@ -257,7 +266,22 @@ public class ClienteController implements Serializable {
 		limites[1] = ultimo;
 		Integer count;
 		try {
-			map = Gym.INSTANCE.listaClientes(valBus.trim(), sTipPer, limites);
+			switch (carga) {
+				case 1:
+					map = Gym.INSTANCE.listaClientes(valBus.trim(), sTipPer, limites);
+					break;
+				case 2:
+					try {
+						if(!valBus.equals("")){
+							codCli = Long.parseLong(valBus);
+							map = Gym.INSTANCE.busquedaGeneral(valBus, codCli, opcion, limites);
+						}else Message.addError(null, "Debe ingresar números !!!");
+					} catch (Exception e) {
+						Message.addError(null, "Solo números !!!");
+					}
+					Js.update("mensajes");
+					break;
+			}
 			if (map != null && !map.isEmpty()) {
 				clientes = (List<ClienteDTO>) map.get("CLIENTES");
 				count = (Integer) map.get("TOTAL");
@@ -269,6 +293,11 @@ public class ClienteController implements Serializable {
 		}
 	}
 	
+	public void seleccionaCliente(){
+		Js.update(":ing_inscripcion");
+		Js.execute("PF('dlg_busqueda').hide()");
+	}
+		
 	public void verCliente(){
 		if(grabar==1){
 			verActualizar = true;
@@ -285,8 +314,6 @@ public class ClienteController implements Serializable {
 				switch (cliente.getTipper().charAt(0)) {
 					case 'N':
 						cargaEmpresas();
-						horaIni = new Date(cliente.getHoinru().getTime());
-						horaFin = new Date(cliente.getHofiru().getTime());
 						break;
 					case 'J':
 						verPj = true;
@@ -308,8 +335,7 @@ public class ClienteController implements Serializable {
 		int res = 0;
 		try {
 			if(cliente!=null){
-				cliente.setHoinru(new Time(horaIni.getTime()));
-				cliente.setHofiru(new Time(horaFin.getTime()));
+				cliente.setFecmod(new Date());
 				res = Gym.INSTANCE.actualizaCliente(sTipPer, cliente);
 				switch (res) {
 					case 0:
@@ -344,6 +370,23 @@ public class ClienteController implements Serializable {
 			Message.addError(null, "Error al eliminar el cliente.");
 		}
 		Js.update("mensajes");
+	}
+	
+	public void cargarComponentes(){
+		switch (opcion) {
+			case 1:
+				texto="Nombre : ";
+				break;
+			case 2:
+				texto="Código : ";
+				break;
+			case 3:
+				texto="DNI : ";
+				break;
+		}
+		logger.log(Level.INFO, texto);
+		valBus = "";
+		Js.update("lbl_valor");
 	}
 	
 	public void cargaEmpresas(){
@@ -438,22 +481,6 @@ public class ClienteController implements Serializable {
 		this.valBus = valBus;
 	}
 
-	public Date getHoraIni() {
-		return horaIni;
-	}
-
-	public void setHoraIni(Date horaIni) {
-		this.horaIni = horaIni;
-	}
-
-	public Date getHoraFin() {
-		return horaFin;
-	}
-
-	public void setHoraFin(Date horaFin) {
-		this.horaFin = horaFin;
-	}
-
 	public List<ClienteDTO> getEmpresas() {
 		return empresas;
 	}
@@ -470,5 +497,28 @@ public class ClienteController implements Serializable {
 		this.modelCliente = modelCliente;
 	}
 
+	public int getOpcion() {
+		return opcion;
+	}
+
+	public void setOpcion(int opcion) {
+		this.opcion = opcion;
+	}
+
+	public String getTexto() {
+		return texto;
+	}
+
+	public void setTexto(String texto) {
+		this.texto = texto;
+	}
+
+	public ClienteDTO getCli() {
+		return cli;
+	}
+
+	public void setCli(ClienteDTO cli) {
+		this.cli = cli;
+	}
 
 }

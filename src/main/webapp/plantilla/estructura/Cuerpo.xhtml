@@ -9,7 +9,7 @@
 		onsuccess="PF('statusDialog').hide();" />
 	<p:dialog widgetVar="statusDialog" showHeader="false" draggable="false"
 		closable="false" appendToBody="true" resizable="false">
-		<h:form>
+		<h:form if="frm_procesar" prependId="false">
 			<img
 				src="#{facesContext.externalContext.requestContextPath}//resources/images/load.gif"
 				class="center" />
@@ -23,7 +23,9 @@
 		</ui:insert>
 	</div>
 	<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+		<h:form id="frm_confirm" prependId="false">
 		<p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 		<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</h:form>
 	</p:confirmDialog>
 </ui:composition>

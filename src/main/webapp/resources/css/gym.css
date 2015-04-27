@@ -6,17 +6,72 @@ body {
     background-color: #DEEDF7;
 }
 
+#frm_header{
+	border-bottom: solid #00549F 2px;
+}
+
+.salir,.salir:VISITED {
+    padding: 0 0 0 20px;
+    background: transparent url(../resources/images/salir.png) no-repeat left
+        center;
+    color: #FF0000;
+    content: "";
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.usuario {
+    padding: 0 0 0 20px;
+    background: transparent url(../resources/images/user.png) no-repeat left center;
+}
+
+.perfil {
+    padding: 0 0 0 20px;
+    background: transparent url(../resources/images/vcard.png) no-repeat left center;
+}
+
+#titulo{
+	color:#FFB612;
+    font-size: 23px;
+    font-weight: bold;
+    padding: 4px;
+}
+
+.color_white{
+	color: white;
+	float: right;
+	font-weight: bold;
+	padding: 17px;
+	font-size: 11px;
+	text-align: right;
+}
+
+#cabeza,#cabeza div{
+	border: none;
+	background-color: #DEEDF7;
+	border-radius: 0px;
+	padding-top: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+#bck_cabecera{
+	background: #00549F url("../resources/images/header.jpg") no-repeat center top;
+	height: 62px;
+	width: 100%;
+}
+
 #info{
 	background-color: #DEEDF7;
 	color: #5a5a5a;
 	text-decoration: none;
 	font-weight: bold;
-	padding:5px;
 }
 #info ul{
-	list-style-type: none;
-	height: 20px;
-	float: right;
+  list-style-type: none;
+  height: auto;
+  float: right;
+  padding: 3px;
 }
 #info li{
    display: inline;

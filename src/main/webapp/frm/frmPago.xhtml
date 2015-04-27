@@ -5,31 +5,27 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
-	<h:form id="ing_modalidad" prependId="false">
-		<p:panel header="Nueva Modalidad">
+	<h:form id="ing_pago" prependId="false">
+		<p:panel header="Pagos">
+			
 			<div class="margen row">
-				<p:outputLabel value="Código : "
+				<p:outputLabel value="Nro. Pago : "
 					styleClass="negrita espacio_comp one fourth" />
-				<p:outputLabel value="#{modalidadController.codMod}"
-					styleClass="one fourth" />
+				<h:outputText value="#{pagoController.pago.id.corpag}" styleClass="two fourths"/>
 			</div>
 			<div class="margen row">
-				<p:outputLabel value="Referencia : "
-					styleClass="negrita espacio_comp one fourth" />
-				<p:inputText value="#{modalidadController.modalidad.nommod}" styleClass="two fourths" readonly="#{modalidadController.read}"/>
+				<p:outputLabel value="Monto : " styleClass="negrita espacio_comp one fourth" />
+				<h:outputText value="#{pagoController.pago.monto}" styleClass="one fourth" />
+				<p:outputLabel value="Monto pagado : " styleClass="negrita espacio_comp one fourth" />
+				<h:outputText value="#{pagoController.pago.monpag}" styleClass="one fourth" />
 			</div>
 			<div class="margen row">
-				<p:outputLabel value="Dias : " styleClass="negrita espacio_comp one fourth" />
-				<p:inputText value="#{modalidadController.modalidad.diamod}" styleClass="one fourth" readonly="#{modalidadController.read}" />
-				<p:outputLabel value="Activa: " styleClass="negrita espacio_comp one fourth"/>
-        		<p:selectBooleanCheckbox value="#{modalidadController.modaActiva}" styleClass=" espacio_comp one fourth" readonly="#{modalidadController.read}"/>
-			</div>
-			<div class="margen row">
-				<p:outputLabel value="Descripcion : " styleClass="negrita espacio_comp one fourth" />
-			</div>
-			<div class="margen row">
-				<p:inputTextarea rows="5" cols="30" counter="display" maxlength="150" counterTemplate="{0} caracteres restantes." autoResize="false" styleClass="four fourths" value="#{modalidadController.modalidad.desmod}" readonly="#{modalidadController.read}"/>
-    			<h:outputText id="display" />
+				<p:outputLabel value="Fec. Vencimiento : " styleClass="negrita espacio_comp one fourth" />
+				<h:outputText value="#{pagoController.pago.fecven}" styleClass="one fourth" >
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+				<p:outputLabel value="Monto pagado : " styleClass="negrita espacio_comp one fourth" />
+				<h:outputText value="#{pagoController.pago.monpag}" styleClass="one fourth" readonly="#{pagoController.read}" />
 			</div>
 		</p:panel>
 		<div class="margen">

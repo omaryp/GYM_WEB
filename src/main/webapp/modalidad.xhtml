@@ -26,29 +26,29 @@
 			    		value="#{modalidadController.modelModalidad}"
 			    		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
 				        <p:column headerText="Cod. Modalidad">
-				            <h:outputText value="#{moda.codMod}" />
+				            <h:outputText value="#{moda.codmod}" />
 				        </p:column>
 				        <p:column headerText="Referencia">
-				            <h:outputText value="#{moda.nomMod}" />
+				            <h:outputText value="#{moda.nommod}" />
 				        </p:column>
 				        <p:column headerText="Días Modalidad" >
-				            <h:outputText value="#{moda.diaMod}" />
+				            <h:outputText value="#{moda.diamod}" />
 				        </p:column>
 				        <p:column headerText="Estado">
-				            <h:outputText value="#{moda.estMod}" />
+				            <h:outputText value="#{moda.estmod}" />
 				        </p:column>
 				        <p:column headerText="Opciones">
 				            <p:commandButton icon="ui-icon-document" title="Ver Modalidad" actionListener="#{modalidadController.verModalidad}">
-				            	<f:setPropertyActionListener value="#{moda.codMod}" target="#{modalidadController.codMod}" />
-				            	<f:setPropertyActionListener value="0" target="#{modalidadController.grabar}"/>  
+				            	<f:setPropertyActionListener value="#{moda.codmod}" target="#{modalidadController.codMod}" />
+				            	<f:setPropertyActionListener value="#{0}" target="#{modalidadController.grabar}"/>  
 				            </p:commandButton>                  				 
 				            <p:commandButton icon="ui-icon-pencil" title="Modificar Modalidad" actionListener="#{modalidadController.verModalidad}" >
-				            	<f:setPropertyActionListener value="#{moda.codMod}" target="#{modalidadController.codMod}" />
-				            	<f:setPropertyActionListener value="1" target="#{modalidadController.grabar}"/>
+				            	<f:setPropertyActionListener value="#{moda.codmod}" target="#{modalidadController.codMod}" />
+				            	<f:setPropertyActionListener value="#{1}" target="#{modalidadController.grabar}"/>
 				            </p:commandButton>
 				            <p:commandButton icon="ui-icon-cancel" title="Eliminar Modalidad" actionListener="#{modalidadController.eliminarModalidad}">
 				            	<p:confirm header="Confirmación" message="Desea dar de baja esta modalidad?" icon="ui-icon-alert" />
-				            	<f:setPropertyActionListener value="#{moda.codMod}" target="#{modalidadController.codMod}" />
+				            	<f:setPropertyActionListener value="#{moda.codmod}" target="#{modalidadController.codMod}" />
 				            </p:commandButton>
 				        </p:column>
 	    			</p:dataTable>

@@ -5,54 +5,61 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
-	<h:form id="ing_modalidad" prependId="false">
-		<p:panel header="Nueva Modalidad">
+	<h:form id="ing_inscripcion" prependId="false">
+		<p:panel header="Nueva Inscripción">
 			<div class="margen row">
-				<p:outputLabel value="Código : "
+				<p:outputLabel value="Cliente : " styleClass="negrita espacio_comp one sixth" />
+				<p:outputLabel id="lbl_nombre" styleClass="negrita espacio_comp three sixths" value="#{inscripcionController.cliente.codigoCliente} - #{inscripcionController.cliente.nombreCliente} #{inscripcionController.cliente.apellidoCliente}"/>
+				<p:commandButton styleClass="espacio_comp one sixth"  title="Buscar cliente" icon="ui-icon-search" actionListener="#{clienteController.cargaFrmBusqueda()}"/>
+			</div>
+			<div class="margen row">
+				<p:outputLabel value="Servicio : " styleClass="negrita espacio_comp one fourth" />
+				<p:selectOneMenu id="cbm_servicio" styleClass="one fourth" value="#{inscripcionController.inscripcionPk.codser}" >
+            		<f:selectItem itemLabel="Seleccione servicio" itemValue="-1" />
+            		<f:selectItems  />
+        		</p:selectOneMenu>
+        		<p:outputLabel value="Modalidad : " styleClass="negrita espacio_comp one fourth" />
+				<p:selectOneMenu id="cbm_modalidad" styleClass="one fourth" value="#{inscripcionController.inscripcionPk.codmod}">
+            		<f:selectItem itemLabel="Seleccione servicio" itemValue="-1" />
+            		<f:selectItems />
+        		</p:selectOneMenu>
+			</div>
+			<div class="margen row">
+				<p:outputLabel value="Activo : "
 					styleClass="negrita espacio_comp one fourth" />
-				<p:outputLabel value="#{modalidadController.codMod}"
-					styleClass="one fourth" />
+				<p:selectBooleanCheckbox value="#{inscripcionController.activo}" styleClass="one fourth" readonly="#{modalidadController.read}"/>
 			</div>
 			<div class="margen row">
-				<p:outputLabel value="Referencia : "
-					styleClass="negrita espacio_comp one fourth" />
-				<p:inputText value="#{modalidadController.modalidad.nommod}" styleClass="two fourths" readonly="#{modalidadController.read}"/>
-			</div>
-			<div class="margen row">
-				<p:outputLabel value="Dias : " styleClass="negrita espacio_comp one fourth" />
-				<p:inputText value="#{modalidadController.modalidad.desmod}" styleClass="two fourths" readonly="#{modalidadController.read}" />
-				<p:outputLabel value="Activa: " styleClass="negrita espacio_comp one fourth"/>
-        		<p:selectBooleanCheckbox value="#{modalidadController.modaActiva}" styleClass="one fourth" readonly="#{modalidadController.read}"/>
-			</div>
-			<div class="margen row">
-				<p:outputLabel value="Descripcion : " styleClass="negrita espacio_comp one fourth" />
-			</div>
-			<div class="margen row">
-				<p:inputTextarea rows="5" cols="30" counter="display" maxlength="150" counterTemplate="{0} caracteres restantes." autoResize="false" styleClass="four fourths" value="#{modalidadController.modalidad.desmod}" readonly="#{modalidadController.read}"/>
-    			<h:outputText id="display" />
+				<p:outputLabel value="Inicio Rutina : " styleClass="negrita espacio_comp one fourth" />
+				<p:calendar id="tmp_horIni" value="#{inscripcionController.horIni}" pattern="HH:mm a" timeOnly="true" styleClass="one fourth" readonly="#{modalidadController.read}"  />
+				<p:outputLabel value="Fin Rutina : " styleClass="negrita espacio_comp one fourth" />
+        		<p:calendar id="tmp_horFin" value="#{inscripcionController.horFin}" pattern="HH:mm a" timeOnly="true" styleClass="one fourth" readonly="#{modalidadController.read}"  />
 			</div>
 		</p:panel>
 		<div class="margen">
 			<h:panelGroup id="png_guardar"
-				rendered="#{modalidadController.verGuar}">
+				rendered="#{inscripcionController.verGuar}">
 				<p:commandButton id="btnGuar" value="Guardar" icon="ui-icon-check"
-					actionListener="#{modalidadController.saveModalidad}"
+					actionListener="#{inscripcionController.saveInscripcion}"
 					styleClass="ui-priority-primary" update=":mensajes">
 					<p:confirm header="Confirmación" message="Desea guardar los datos?"
 						icon="ui-icon-alert" />
 				</p:commandButton>
 			</h:panelGroup>
 			<h:panelGroup id="png_actualiza"
-				rendered="#{modalidadController.verActualizar}">
-				<p:commandButton id="btnActu" value="Actualizar" actionListener="#{modalidadController.actualizarModalidad}"
+				rendered="#{inscripcionController.verActualizar}">
+				<p:commandButton id="btnActu" value="Actualizar" actionListener="#{inscripcionController.actualizarInscripcion}"
 					icon="ui-icon-check" styleClass="ui-priority-primary" >
 					<p:confirm header="Confirmación" message="Desea actualizar los datos?"
 						icon="ui-icon-alert" />
 				</p:commandButton>
 			</h:panelGroup>
-			<p:commandButton id="btnSalir" value="Salir" actionListener="#{modalidadController.salir}"
-				icon="ui-icon-closethick" styleClass="ui-priority-primary" update=":frm_modalidad" />
+			<p:commandButton id="btnSalir" value="Salir" actionListener="#{inscripcionController.salir}"
+				icon="ui-icon-closethick" styleClass="ui-priority-primary" update=":frm_inscripcion" />
 		</div>
 	</h:form>
-
+	<p:dialog id="nva_busqueda" showHeader="false" widgetVar="dlg_busqueda" width="1100">
+		<ui:include src="/frm/frmBusquedaCliente.xhtml" />
+	</p:dialog>
+	
 </ui:composition>

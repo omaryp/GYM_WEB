@@ -42,9 +42,19 @@
 						styleClass="negrita espacio_comp one fourth" />
 					<p:inputText value="#{clienteController.cliente.dnicli}" readonly="#{clienteController.read}"
 						styleClass="one fourth" />
-					<p:outputLabel value="Telefono : "
+					<p:outputLabel value="Fec. Nacimiento : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:calendar value="#{clienteController.cliente.fecnac}" navigator="true" pattern="dd/MM/yyyy"  readonly="#{clienteController.read}"
+						styleClass="one fourth" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Telefono 1: "
 						styleClass="negrita espacio_comp one fourth" />
 					<p:inputText value="#{clienteController.cliente.telef1}" readonly="#{clienteController.read}"
+						styleClass="one fourth" />
+					<p:outputLabel value="Telefono 2: "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{clienteController.cliente.telef2}" readonly="#{clienteController.read}"
 						styleClass="one fourth" />
 				</div>
 				<div class="margen row">
@@ -52,18 +62,6 @@
 						styleClass="negrita espacio_comp one fourth" />
 					<p:inputText value="#{clienteController.cliente.dircli}" readonly="#{clienteController.read}"
 						styleClass="three fourths" />
-				</div>
-				<div class="margen row">
-					<p:outputLabel value="Hora Ini Rutina : "
-						styleClass="negrita espacio_comp one fourths" />
-					<p:calendar timeOnly="true" value="#{clienteController.horaIni}" disabled="#{clienteController.read}"
-						id="hor_ini" styleClass="one fourth" pattern="HH:mm a"
-						label="Hora Inicio Rutina" />
-					<p:outputLabel value="Hora Fin Rutina : "
-						styleClass="negrita espacio_comp one fourths" />
-					<p:calendar timeOnly="true" value="#{clienteController.horaFin}" disabled="#{clienteController.read}"
-						id="hor_fin" styleClass="one fourth" pattern="HH:mm a"
-						label="Hora Inicio Rutina" />
 				</div>
 				<div class="margen row">
 					<p:outputLabel value="Empresa : "

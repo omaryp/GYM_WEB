@@ -4,6 +4,7 @@
 package pe.com.gym.controllers;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -11,6 +12,7 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.LazyDataModel;
@@ -18,8 +20,11 @@ import org.primefaces.model.SortOrder;
 
 import pe.com.gym.delegate.Gym;
 import pe.com.gym.entidades.Servicio;
+import pe.com.gym.login.Usuario;
+import pe.com.gym.util.Estado;
 import pe.com.gym.util.Js;
 import pe.com.gym.util.Message;
+import pe.com.gym.util.controllers.InitController;
 
 /**
  * @author Omar Yarleque
@@ -31,7 +36,8 @@ import pe.com.gym.util.Message;
 public class ServicioController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(ServicioController.class.getName());
+	@ManagedProperty(value = "#{InitController}")
+	private InitController initController;
 	private int primero;
 	private int ultimo;
 	private int grabar;
@@ -42,17 +48,21 @@ public class ServicioController implements Serializable {
 	private boolean read;
 	private String valBus;
 	private Servicio servicio;
+	private Usuario userSesion;
 	private List<Servicio> servicios;
 	private LazyDataModel<Servicio> modelServicio;
+	private static final Logger logger = Logger.getLogger(ServicioController.class.getName());
 
 	public ServicioController() {
 	}
 
 	@PostConstruct
 	public void init() {
+		userSesion = (Usuario)initController.getSessionVars().get("USUARIO");
 		verGuar = true;
 		verActualizar = false;
 		read = false;
+		cargarLista();
 	}
 
 	public void cargarClave() {
@@ -68,6 +78,7 @@ public class ServicioController implements Serializable {
 	public void saveServicio(){
 		if (validarDatos()) {
 			int res = 0;
+			servicio.setEstser(serActivo?Estado.ACTIVO.getValue():Estado.DESACTIVADO.getValue());
 			servicio.setCodser(codSer);
 			servicio.setUsureg("");
 			servicio.setFecreg(new java.sql.Date(new java.util.Date().getTime()));
@@ -88,6 +99,9 @@ public class ServicioController implements Serializable {
 		int res = 0;
 		try {
 			if(servicio!=null){
+				servicio.setEstser(serActivo?Estado.ACTIVO.getValue():Estado.DESACTIVADO.getValue());
+				servicio.setUsumod(userSesion.getUsername());
+				servicio.setFecmod(new Date());
 				res = Gym.INSTANCE.actualizaServicio(servicio);
 				switch (res) {
 					case 0:
@@ -108,7 +122,7 @@ public class ServicioController implements Serializable {
 		int res = 0;
 		try {
 			if(codSer!=0){
-				res = Gym.INSTANCE.cambiaEstadoModalidad(codSer, 1);
+				res = Gym.INSTANCE.cambiaEstadoModalidad(codSer, Estado.DESACTIVADO.getValue());
 				switch (res) {
 					case 0:
 						Message.addInfo(null, "Se dió de baja el servicio !!!");
@@ -128,6 +142,7 @@ public class ServicioController implements Serializable {
 		limpiarformulario();
 		reiniciarflags();
 		Js.execute("PF('dlg_servicio').hide()");
+		cargarLista();
 	}
 	
 	public void reiniciarflags() {
@@ -198,7 +213,7 @@ public class ServicioController implements Serializable {
 		limites[1] = ultimo;
 		Integer count;
 		try {
-			map = Gym.INSTANCE.listaModalidades(valBus, limites);
+			map = Gym.INSTANCE.listaServicios(valBus, limites);
 			if (map != null && !map.isEmpty()) {
 				servicios = (List<Servicio>) map.get("SERVICIOS");
 				count = (Integer) map.get("TOTAL");
@@ -224,6 +239,7 @@ public class ServicioController implements Serializable {
 			servicio = Gym.INSTANCE.getServicio(codSer);
 			if(servicio!=null){
 				codSer = servicio.getCodser();
+				serActivo = (servicio.getEstser()==Estado.ACTIVO.getValue())?true:false;
 				Js.update("ing_modalidad");
 				Js.execute("PF('dlg_modalidad').show()");
 			}else
@@ -304,6 +320,22 @@ public class ServicioController implements Serializable {
 
 	public void setSerActivo(boolean serActivo) {
 		this.serActivo = serActivo;
+	}
+
+	public InitController getInitController() {
+		return initController;
+	}
+
+	public void setInitController(InitController initController) {
+		this.initController = initController;
+	}
+
+	public Usuario getUserSesion() {
+		return userSesion;
+	}
+
+	public void setUserSesion(Usuario userSesion) {
+		this.userSesion = userSesion;
 	}
 	
 }

@@ -1,4 +1,4 @@
 <% 
-    String redirectURL = request.getContextPath() + "/cliente.do";
+    String redirectURL = request.getContextPath() + "/login/login.do";
     response.sendRedirect(redirectURL); 
 %>

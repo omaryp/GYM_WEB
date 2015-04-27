@@ -26,29 +26,29 @@
 			    		value="#{servicioController.modelServicio}"
 			    		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
 				        <p:column headerText="Cod. Servicio">
-				            <h:outputText value="#{ser.codSer}" />
+				            <h:outputText value="#{ser.codser}" />
 				        </p:column>
 				        <p:column headerText="Referencia">
-				            <h:outputText value="#{ser.nomSer}" />
+				            <h:outputText value="#{ser.nomser}" />
 				        </p:column>
 				        <p:column headerText="Monto Servicio" >
-				            <h:outputText value="#{ser.monSer}" />
+				            <h:outputText value="#{ser.monser}" />
 				        </p:column>
 				        <p:column headerText="Estado">
-				            <h:outputText value="#{ser.estSer}" />
+				            <h:outputText value="#{ser.estser}" />
 				        </p:column>
 				        <p:column headerText="Opciones">
 				            <p:commandButton icon="ui-icon-document" title="Ver Modalidad" actionListener="#{servicioController.verServicio}">
-				            	<f:setPropertyActionListener value="#{ser.codSer}" target="#{servicioController.codSer}" />
-				            	<f:setPropertyActionListener value="0" target="#{servicioController.grabar}"/>  
+				            	<f:setPropertyActionListener value="#{ser.codser}" target="#{servicioController.codSer}" />
+				            	<f:setPropertyActionListener value="#{0}" target="#{servicioController.grabar}"/>  
 				            </p:commandButton>                  				 
 				            <p:commandButton icon="ui-icon-pencil" title="Modificar Modalidad" actionListener="#{servicioController.verServicio}" >
-				            	<f:setPropertyActionListener value="#{ser.codSer}" target="#{servicioController.codSer}" />
-				            	<f:setPropertyActionListener value="0" target="#{servicioController.grabar}"/>
+				            	<f:setPropertyActionListener value="#{ser.codser}" target="#{servicioController.codSer}" />
+				            	<f:setPropertyActionListener value="#{1}" target="#{servicioController.grabar}"/>
 				            </p:commandButton>
 				            <p:commandButton icon="ui-icon-cancel" title="Eliminar Modalidad" actionListener="#{servicioController.eliminarServicio}">
 				            	<p:confirm header="Confirmación" message="Desea dar de baja esta modalidad?" icon="ui-icon-alert" />
-				            	<f:setPropertyActionListener value="#{ser.codSer}" target="#{servicioController.codSer}" />
+				            	<f:setPropertyActionListener value="#{ser.codser}" target="#{servicioController.codSer}" />
 				            </p:commandButton>
 				        </p:column>
 	    			</p:dataTable>

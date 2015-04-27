@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/plantilla/plantilla.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<ui:define name="titulo">
+    	Registro de pagos
+    </ui:define>
+	<ui:define name="cuerpo">
+		<p:panel header="PAGO" styleClass="margen sin_borde">
+			<h:form id="frm_modalidad" prependId="false">
+				<div class="margen row">
+					<p:outputLabel value="Cliente : " styleClass="negrita espacio_comp one sixth" />
+					<p:outputLabel id="lbl_nombre" styleClass="negrita espacio_comp three sixths" value="#{inscripcionController.cliente.codigoCliente} - #{inscripcionController.cliente.nombreCliente} #{inscripcionController.cliente.apellidoCliente}"/>
+					<p:commandButton value="Buscar" styleClass="espacio_comp one sixth"  title="Buscar cliente" icon="ui-icon-search" actionListener="#{clienteController.cargaFrmBusqueda}"/>
+				</div>
+				<div class="margen">
+		    		<p:dataTable id="tbl_pagos" paginator="true" lazy="true" 
+			    		rows="10" paginatorPosition="bottom" 
+			    		emptyMessage="No hay coincidencias !!" var="pago"
+			    		value="#{pagoController.modelPago}"
+			    		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+				        <p:column headerText="Cod. Pago">
+				            <h:outputText value="#{pago.id.corPag}" />
+				        </p:column>
+				        <p:column headerText="Monto">
+				            <h:outputText value="#{pago.monto}" />
+				        </p:column>
+				        <p:column headerText="Fec. Vencimiento" >
+				            <h:outputText value="#{pago.Fecven}" />
+				        </p:column>
+				        <p:column headerText="Fec. Pago">
+				            <h:outputText value="#{pago.Fecpag}" />
+				        </p:column>
+				        <p:column headerText="Opciones">
+				            <p:commandButton icon="ui-icon-document" title="Ver Pago" actionListener="#{pagoController.verPago}">
+				            	<f:setPropertyActionListener value="#{pago.id}" target="#{pagoController.pagoPk}" />
+				            </p:commandButton>
+				        </p:column>
+	    			</p:dataTable>
+		    	</div>
+		    	<div class="margen">
+		    		<p:commandButton icon="ui-icon-plus" title="Nuevo Pago" actionListener="#{pagoController.cargarClave}" value="Nueva Pago" styleClass="ui-priority-primary" update=":nvo_pago" />
+		    	</div>
+			</h:form>
+		</p:panel>
+		
+		<p:dialog id="nvo_pago" showHeader="false" widgetVar="dlg_pago" width="700">
+			<ui:include src="/frm/frmPago.xhtml" />
+		</p:dialog>
+		
+		<ui:include src="/frm/frmBusquedaCliente.xhtml" />
+		
+	</ui:define>
+</ui:composition>

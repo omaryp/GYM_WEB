@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<h:form id="ing_cliente" prependId="false">
+		<p:panel header="BÚSQUEDA DE CLIENTES" styleClass="margen sin_borde">
+			<h:form id="frm_busqueda" prependId="false">			
+				<div class="margen row">  
+					<h:outputText value="Tipo de Búsqueda : " styleClass="derecha espacio_comp one seventh"/>
+			        <p:selectOneRadio id="rdb_opcion" value="#{clienteController.opcion}" styleClass="four sevenths">  
+			            <f:selectItem itemLabel="Por Nombre" itemValue="1"/>  
+			            <f:selectItem itemLabel="Por Código" itemValue="2"/>  
+			            <f:selectItem itemLabel="Por Dni" itemValue="3"/>  
+			            <p:ajax listener="#{clienteController.cargarComponentes}" event="change" />
+			        </p:selectOneRadio>
+			     </div>  
+			     <div class="margen row">
+			    	<h:outputText id="lbl_valor" value="#{clienteController.texto}" styleClass="derecha espacio_comp one seventh"/>
+					<p:inputText id="txt_valor" value="#{clienteController.valBus}" styleClass="three seventh"/>
+			     </div>
+			     <div class="margen row">
+			     	<p:commandButton id="btn_buscar" icon="ui-icon-search" value="Buscar" actionListener="#{clienteController.buscarCliente()}" update="tabla_clientes,:mensajes" styleClass="ui-priority-primary"/>
+			     </div>
+			     <div class="margen">
+			    	<p:dataTable id="tabla_clientes" 
+			    		paginator="true" lazy="true" 
+			    		rows="5" paginatorPosition="bottom" 
+			    		emptyMessage="No hay coincidencias !!" var="cli"
+			    		value="#{clienteController.modelCliente}"
+			    		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" >
+				        <p:column headerText="Código">
+				            <h:outputText value="#{cli.codigoCliente}" />
+				        </p:column>
+				        <p:column headerText="Nombre Cliente">
+				            <h:outputText value="#{cli.nombreCliente} #{cli.apellidoCliente}" />
+				        </p:column>
+				        <p:column headerText="Documento">
+				            <h:outputText value="#{cli.dni}" />
+				        </p:column>
+				        <p:column headerText="Opciones">
+				            <p:commandButton icon="ui-icon-check" title="Seleccionar cliente" actionListener="#{clienteController.seleccionaCliente}">
+				            	<f:setPropertyActionListener value="#{cli}" target="#{clienteController.cli}" />
+				            </p:commandButton>
+				        </p:column>
+    				</p:dataTable>
+			     </div>
+			     <p:commandButton id="btnSalir1" value="Salir" actionListener="#{clienteController.salirBusqueda}" icon="ui-icon-closethick" styleClass="ui-priority-primary" />
+	        </h:form>
+        </p:panel>
+	</h:form>
+</ui:composition>

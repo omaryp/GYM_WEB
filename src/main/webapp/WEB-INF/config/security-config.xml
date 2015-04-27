@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans 
+	xmlns:beans="http://www.springframework.org/schema/beans"
+  	xmlns:security="http://www.springframework.org/schema/security"
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  	xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+
+    
+<!--Tener cuidado si un elemento xml no tiene hijo, solamente se indica con / para cerrar y no con elemento propio-->
+<!--El elemento use-expression es importemte ya que permite el uso de expresiones booleanas como hasRole en vez de usar lista de parametros-->
+<!--Este es el elemento responsable de FilterChainProxy-->
+<!--En el manejo de sessiones solo permitrira un usuario por sesion-->
+    
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider ref="wsAuthenticationProvider"/>
+    </security:authentication-manager>
+    
+    <beans:bean id="wsAuthenticationProvider" class="pe.com.gym.login.WebServiceAuthenticationProvider"/>
+    
+    <security:http pattern="/static/**" security="none"/>
+    <security:http pattern="/login/**" security="none"/>
+    <security:http pattern="index.jsp" security="none" />
+    
+    <security:http auto-config="true" use-expressions="true" access-denied-page="/static/accessDenied.jsp">
+        <security:custom-filter ref="sessionManagementFilter" before="SESSION_MANAGEMENT_FILTER" /> 
+        <security:form-login login-page="/login/login.do" 
+        default-target-url="/plantilla/plantilla.do" 
+        always-use-default-target="true"
+        authentication-failure-url="/login/login.do?state=failure"/>
+        
+        <security:logout logout-success-url="/login/login.do?state=logout" invalidate-session="true" delete-cookies="JSESSIONID" />
+        <security:session-management>
+            <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" session-registry-alias="sessionRegistry"/>
+        </security:session-management>
+    </security:http>
+
+    <beans:bean id="sessionManagementFilter" class="org.springframework.security.web.session.SessionManagementFilter">
+        <beans:constructor-arg name="securityContextRepository" ref="httpSessionSecurityContextRepository" />
+        <beans:property name="invalidSessionStrategy" ref="jsfInvalidSessionStrategy" />
+    </beans:bean>
+    
+    <beans:bean id="jsfInvalidSessionStrategy" class="pe.com.gym.login.JsfRedirectInvalidSessionStrategy">
+        <beans:constructor-arg name="invalidSessionUrl" value="/login/login.do?state=timeout" />
+        <beans:property name="redirectStrategy" ref="jsfRedirectStrategy"/>
+    </beans:bean>
+    
+    <beans:bean id="jsfRedirectStrategy" class="pe.com.gym.login.JsfRedirectStrategy"/>
+    <beans:bean id="httpSessionSecurityContextRepository" class="org.springframework.security.web.context.HttpSessionSecurityContextRepository"/>
+    
+    
+</beans:beans>

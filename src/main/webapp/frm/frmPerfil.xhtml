@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<h:form id="ing_perfil" prependId="false">
+		<p:panel header="Nuevo Perfil">
+			<fieldset>
+				<legend>Datos Perfil</legend>			
+				<div class="margen row">
+					<p:outputLabel value="Código : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:outputLabel value="#{perfilController.codPer}"
+						styleClass="one fourth" />
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Nombre Perfil : "
+						styleClass="negrita espacio_comp one fourth" />
+					<p:inputText value="#{perfilController.perfil.nomper}" styleClass="two fourths" readonly="#{perfilController.read}"/>
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Activo : " styleClass="negrita espacio_comp one fourth"/>
+	        		<p:selectBooleanCheckbox value="#{perfilController.perfilActivo}" styleClass=" espacio_comp one fourth" readonly="#{perfilController.read}"/>
+				</div>
+				<div class="margen row">
+					<p:outputLabel value="Descripcion : " styleClass="negrita espacio_comp one fourth" />
+				</div>
+				<div class="margen row">
+					<p:inputTextarea rows="5" cols="30" counter="display" maxlength="150" counterTemplate="{0} caracteres restantes." autoResize="false" styleClass="four fourths" value="#{perfilController.perfil.desper}" readonly="#{perfilController.read}"/>
+	    			<h:outputText id="display" />
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend>Menus</legend>
+				<div class="margen row">
+					<p:selectManyCheckbox id="grid" value="#{perfilController.menusSeleccionados}" layout="grid" columns="3">
+			            <f:selectItems value="#{perfilController.menus}" var="men" itemLabel="#{men.nommen}" itemValue="#{men.codmen}" />
+			        </p:selectManyCheckbox>
+				</div>
+			</fieldset>
+		</p:panel>
+		<div class="margen">
+			<h:panelGroup id="png_guardar"
+				rendered="#{perfilController.verGuar}">
+				<p:commandButton id="btnGuar" value="Guardar" icon="ui-icon-check"
+					actionListener="#{perfilController.savePerfil}"
+					styleClass="ui-priority-primary" update=":mensajes">
+					<p:confirm header="Confirmación" message="Desea guardar los datos?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+			</h:panelGroup>
+			<h:panelGroup id="png_actualiza"
+				rendered="#{perfilController.verActualizar}">
+				<p:commandButton id="btnActu" value="Actualizar" actionListener="#{perfilController.actualizarPerfil}"
+					icon="ui-icon-check" styleClass="ui-priority-primary" >
+					<p:confirm header="Confirmación" message="Desea actualizar los datos?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+			</h:panelGroup>
+			<p:commandButton id="btnSalir" value="Salir" actionListener="#{perfilController.salir}"
+				icon="ui-icon-closethick" styleClass="ui-priority-primary" update=":frm_perfil" />
+		</div>
+	</h:form>
+
+</ui:composition>

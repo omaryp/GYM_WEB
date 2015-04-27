@@ -4,6 +4,7 @@
 package pe.com.gym.controllers;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -11,15 +12,24 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import pe.com.gym.delegate.Gym;
+import pe.com.gym.dto.ClienteDTO;
+import pe.com.gym.dto.InscripcionDTO;
 import pe.com.gym.entidades.Inscripcion;
+import pe.com.gym.entidades.InscripcionPk;
+import pe.com.gym.entidades.ModalidadPago;
+import pe.com.gym.entidades.Servicio;
+import pe.com.gym.login.Usuario;
+import pe.com.gym.util.Estado;
 import pe.com.gym.util.Js;
 import pe.com.gym.util.Message;
+import pe.com.gym.util.controllers.InitController;
 
 /**
  * @author Omar Yarleque
@@ -32,17 +42,27 @@ public class InscripcionController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = Logger.getLogger(InscripcionController.class.getName());
+	@ManagedProperty(value = "#{InitController}")
+	private InitController initController;
+	private Usuario userSesion;
 	private int primero;
 	private int ultimo;
 	private int grabar;
 	private int corIns;
+	private boolean activo;
 	private boolean verGuar;
 	private boolean verActualizar;
 	private boolean read;
+	private Date horIni;
+	private Date horFin;
 	private String valBus;
+	private ClienteDTO cliente;
 	private Inscripcion inscripcion;
-	private List<Inscripcion> inscripciones;
-	private LazyDataModel<Inscripcion> modelInscripcion;
+	private InscripcionPk inscripcionPk;
+	private List<InscripcionDTO> inscripciones;
+	private List<Servicio> servicios;
+	private List<ModalidadPago> modalidades;
+	private LazyDataModel<InscripcionDTO> modelInscripcion;
 
 	public InscripcionController() {
 	}
@@ -55,8 +75,10 @@ public class InscripcionController implements Serializable {
 	}
 
 	public void cargarClave() {
+		inscripcionPk = new InscripcionPk();
 		inscripcion = new Inscripcion();
-		//codMod = Gym.INSTANCE.getCodigoModalidadNva();
+		corIns = Gym.INSTANCE.getCorrelativoIncripcion();
+		inscripcionPk.setCorrel(corIns);
 		if (corIns != 0) {
 			Js.execute("PF('dlg_inscripcion').show()");
 		} else
@@ -67,10 +89,10 @@ public class InscripcionController implements Serializable {
 	public void saveInscripcion(){
 		if (validarDatos()) {
 			int res = 0;
-			inscripcion.setCorrel(corIns);
+			inscripcion.getId().setCorrel(corIns);
 			inscripcion.setUsureg("");
-			inscripcion.setFecreg(new java.sql.Date(new java.util.Date().getTime()));
-			//res = Gym.INSTANCE.registraModalidad(modalidad);
+			inscripcion.setFecreg(new Date());
+			res = Gym.INSTANCE.registraInscripcion(inscripcion);
 			switch (res) {
 			case 0:
 				Message.addInfo(null, "Se inscribio cliente correctamente !!!");
@@ -87,7 +109,9 @@ public class InscripcionController implements Serializable {
 		int res = 0;
 		try {
 			if(inscripcion!=null){
-				//res = Gym.INSTANCE.actualizaModalidad(modalidad);
+				inscripcion.setUsumod("");
+				inscripcion.setFecmod(new Date());
+				res = Gym.INSTANCE.actualizaInscripcion(inscripcion);
 				switch (res) {
 					case 0:
 						Message.addInfo(null, "Se actualizó correctamenete !!!");
@@ -103,17 +127,17 @@ public class InscripcionController implements Serializable {
 		Js.update("mensajes");
 	}
 	
-	public void eliminarInscripcion(){
+	public void cancelarInscripcion(){
 		int res = 0;
 		try {
 			if(corIns!=0){
-				//res = Gym.INSTANCE.cambiaEstadoModalidad(codMod, 1);
+				res = Gym.INSTANCE.cancelarInscripcion(inscripcionPk,Estado.DESACTIVADO.getValue());
 				switch (res) {
 					case 0:
-						Message.addInfo(null, "Se dió de baja esta modalidad !!!");
+						Message.addInfo(null, "Se dió de baja la inscripción !!!");
 						break;
 					default:
-						Message.addError(null, "Error al dar de baja esta modalidad !!!");
+						Message.addError(null, "Error al dar de baja la inscripción !!!");
 						break;
 				}
 			}
@@ -126,7 +150,7 @@ public class InscripcionController implements Serializable {
 	public void salir(){
 		limpiarformulario();
 		reiniciarflags();
-		Js.execute("PF('dlg_modalidad').hide()");
+		Js.execute("PF('dlg_inscripcion').hide()");
 	}
 	
 	public void reiniciarflags() {
@@ -137,6 +161,7 @@ public class InscripcionController implements Serializable {
 	public void limpiarformulario() {
 		corIns = 0;
 		inscripcion = null;
+		cliente = null;
 	}
 	
 	public void cargarLista() {
@@ -144,19 +169,25 @@ public class InscripcionController implements Serializable {
 	}
 
 	public boolean validarDatos() {
-		if (inscripcion.getCodcli() == 0)
+		if (inscripcion.getId().getCodcli() == 0)
 			Message.addError(null, "Seleccione cliente !!!");
-		if (inscripcion.getCodmod() == 0)
+		if (inscripcion.getId().getCodmod() == 0)
 			Message.addError(null, "Seleccione modalidad de pago !!!");
-		if (inscripcion.getCodser() == 0)
+		if (inscripcion.getId().getCodser() == 0)
 			Message.addError(null, "Seleccione servicio !!!");
+		if (horIni == null)
+			Message.addError(null, "Seleccione hora inicio de rutina !!!");
+		if (horFin == null)
+			Message.addError(null, "Seleccione hora fin de rutina !!!");
+		if (horIni.getTime() >= horFin.getTime())
+			Message.addError(null, "Hora de inicio de rutina debe ser mayor que la hora de inicio");
 		if (corIns == 0)
 			Message.addError(null, "No se generó código de inscripción.");
 		return !Message.hayMensajes();
 	}
 	
 	public void loadLazyModelInscripcion() {
-		modelInscripcion = new LazyDataModel<Inscripcion>() {
+		modelInscripcion = new LazyDataModel<InscripcionDTO>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -169,17 +200,17 @@ public class InscripcionController implements Serializable {
 			}
 
 			@Override
-			public Inscripcion getRowData(String rowKey) {
+			public InscripcionDTO getRowData(String rowKey) {
 				return null;
 			}
 
 			@Override
-			public Object getRowKey(Inscripcion dto) {
+			public Object getRowKey(InscripcionDTO dto) {
 				return null;
 			}
 
 			@Override
-			public List<Inscripcion> load(int first, int pageSize,
+			public List<InscripcionDTO> load(int first, int pageSize,
 					String string, SortOrder so, Map<String, Object> map) {
 				primero = first;
 				ultimo = pageSize + first;
@@ -189,6 +220,7 @@ public class InscripcionController implements Serializable {
 		};
 	}
 
+	@SuppressWarnings("unchecked")
 	public void loadData() {
 		int[] limites = new int[2];
 		Map<String, Object> map = null;
@@ -196,9 +228,9 @@ public class InscripcionController implements Serializable {
 		limites[1] = ultimo;
 		Integer count;
 		try {
-			map = Gym.INSTANCE.listaModalidades(valBus, limites);
+			map = Gym.INSTANCE.listaInscripciones(valBus, limites);
 			if (map != null && !map.isEmpty()) {
-				//inscripciones = (List<Inscripciones>) map.get("INSCRIPCIONES");
+				inscripciones = (List<InscripcionDTO>) map.get("INSCRIPCIONES");
 				count = (Integer) map.get("TOTAL");
 				modelInscripcion.setRowCount(count);
 			} else
@@ -208,7 +240,7 @@ public class InscripcionController implements Serializable {
 		}
 	}
 	
-	public void verModalidad(){
+	public void verInscripcion(){
 		if(grabar==1){
 			verActualizar = true;
 			read = false;
@@ -219,15 +251,14 @@ public class InscripcionController implements Serializable {
 		}
 		verGuar = false;
 		try {
-			//inscripcion = Gym.INSTANCE.getModalidad(codMod);
+			inscripcion = Gym.INSTANCE.getIncripcion(inscripcionPk);
 			if(inscripcion!=null){
-				corIns = inscripcion.getCorrel();
-				Js.update("ing_modalidad");
-				Js.execute("PF('dlg_modalidad').show()");
+				Js.update("ing_inscripcion");
+				Js.execute("PF('dlg_inscripcion').show()");
 			}else
-				Message.addError(null, "Error al cargar modalidad.");
+				Message.addError(null, "Error al cargar inscripción.");
 		} catch (Exception e) {
-			Message.addError(null, "Error al cargar modalidad.");
+			Message.addError(null, "Error al cargar inscripción.");
 		}
 		Js.update("mensajes");	
 	}
@@ -270,6 +301,94 @@ public class InscripcionController implements Serializable {
 
 	public void setRead(boolean read) {
 		this.read = read;
+	}
+
+	public Inscripcion getInscripcion() {
+		return inscripcion;
+	}
+
+	public void setInscripcion(Inscripcion inscripcion) {
+		this.inscripcion = inscripcion;
+	}
+
+	public LazyDataModel<InscripcionDTO> getModelInscripcion() {
+		return modelInscripcion;
+	}
+
+	public void setModelInscripcion(LazyDataModel<InscripcionDTO> modelInscripcion) {
+		this.modelInscripcion = modelInscripcion;
+	}
+
+	public InscripcionPk getInscripcionPk() {
+		return inscripcionPk;
+	}
+
+	public void setInscripcionPk(InscripcionPk inscripcionPk) {
+		this.inscripcionPk = inscripcionPk;
+	}
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+
+	public ClienteDTO getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(ClienteDTO cliente) {
+		this.cliente = cliente;
+	}
+
+	public List<Servicio> getServicios() {
+		return servicios;
+	}
+
+	public void setServicios(List<Servicio> servicios) {
+		this.servicios = servicios;
+	}
+
+	public List<ModalidadPago> getModalidades() {
+		return modalidades;
+	}
+
+	public void setModalidades(List<ModalidadPago> modalidades) {
+		this.modalidades = modalidades;
+	}
+
+	public Date getHorIni() {
+		return horIni;
+	}
+
+	public void setHorIni(Date horIni) {
+		this.horIni = horIni;
+	}
+
+	public Date getHorFin() {
+		return horFin;
+	}
+
+	public void setHorFin(Date horFin) {
+		this.horFin = horFin;
+	}
+
+	public InitController getInitController() {
+		return initController;
+	}
+
+	public void setInitController(InitController initController) {
+		this.initController = initController;
+	}
+
+	public Usuario getUserSesion() {
+		return userSesion;
+	}
+
+	public void setUserSesion(Usuario userSesion) {
+		this.userSesion = userSesion;
 	}
 	
 }

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/plantilla/plantilla.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<ui:define name="titulo">
+    	Ingreso Perfiles
+    </ui:define>
+	<ui:define name="cuerpo">
+	
+		<p:panel header="REGISTRO PERFILES" styleClass="margen sin_borde">
+			<h:form id="frm_perfil" prependId="false">
+				<div class="margen row">
+					<p:outputLabel value=" Busqueda : "
+						styleClass="negrita espacio_comp one seventh" />
+					<p:inputText value="#{perfilController.valBus}" styleClass="negrita espacio_comp three sevenths">
+						<p:ajax update="tbl_perfiles,:mensajes" event="keyup" listener="#{perfilController.cargarLista}"/>
+					</p:inputText>
+				</div>
+				<div class="margen">
+		    		<p:dataTable id="tbl_perfiles" paginator="true" lazy="true" 
+			    		rows="10" paginatorPosition="bottom" 
+			    		emptyMessage="No hay coincidencias !!" var="per"
+			    		value="#{perfilController.modelPerfil}"
+			    		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+				        <p:column headerText="Cod. Perfil">
+				            <h:outputText value="#{per.codPer}" />
+				        </p:column>
+				        <p:column headerText="Nomnre Perfil" >
+				            <h:outputText value="#{per.nomPer}" />
+				        </p:column>
+				        <p:column headerText="Opciones">
+				            <p:commandButton icon="ui-icon-document" title="Ver Perfil" actionListener="#{perfilController.verPerfil}">
+				            	<f:setPropertyActionListener value="#{per.codPer}" target="#{perfilController.codPer}" />
+				            	<f:setPropertyActionListener value="0" target="#{perfilController.grabar}"/>  
+				            </p:commandButton>                  				 
+				            <p:commandButton icon="ui-icon-pencil" title="Modificar Perfil" actionListener="#{perfilController.verPerfil}" >
+				            	<f:setPropertyActionListener value="#{per.codPer}" target="#{perfilController.codPer}" />
+				            	<f:setPropertyActionListener value="1" target="#{perfilController.grabar}"/>
+				            </p:commandButton>
+				            <p:commandButton icon="ui-icon-cancel" title="Eliminar Perfil" actionListener="#{perfilController.eliminarPerfil}">
+				            	<p:confirm header="Confirmación" message="Desea dar de baja el perfil?" icon="ui-icon-alert" />
+				            	<f:setPropertyActionListener value="#{per.codPer}" target="#{perfilController.codPer}" />
+				            </p:commandButton>
+				        </p:column>
+	    			</p:dataTable>
+		    	</div>
+		    	<div class="margen">
+		    		<p:commandButton icon="ui-icon-plus" title="Nuevo Perfil" actionListener="#{perfilController.cargarClave}" value="Nuevo Perfil" styleClass="ui-priority-primary" update=":nvo_perfil" />
+		    	</div>
+			</h:form>
+		</p:panel>
+		<p:dialog id="nvo_perfil" showHeader="false" widgetVar="dlg_perfil" width="900">
+			<ui:include src="/frm/frmPerfil.xhtml" />
+		</p:dialog>
+		
+	</ui:define>
+</ui:composition>

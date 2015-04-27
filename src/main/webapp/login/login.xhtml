@@ -1,11 +1,94 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<h:head></h:head> 
-<body> 
-<div>holaaaaaaa omar</div>
-</body> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<h:head>
+        <link rel="icon" type="image/ico" href="#{facesContext.externalContext.requestContextPath}/resources/images/favicon.ico" />
+        <h:outputStylesheet name="groundwork.css" library="css"></h:outputStylesheet>
+        <h:outputStylesheet name="groundwork-ie.css" library="css"></h:outputStylesheet>
+        <h:outputStylesheet name="login.css" library="css"></h:outputStylesheet>        
+        <title>Inicio Sesión</title> 
+    </h:head>
+    <h:body>
+        <div id="cuerpo">
+        <h:form id="frm_login" prependId="false" >
+        	<div class="row" >
+           		<div class="one centered mobile third">
+           			<p:fieldset styleClass="borde_sombra">
+           				<div class="fondo row">
+        					<div class="color two thirds">
+								Gimnasio          					
+           					</div>
+           				</div>
+           				<div class="fondito row">
+           					<div class="one centered mobile third">ENTRAR</div>
+           				</div>
+           				<div class="margen_arr row">
+			           		<div class="margen_izq one third">
+				        		<img src="../resources/images/login.png" />
+			        		</div>
+			        		<div class="two thirds">
+			        			<div class="margen_arr margen_izq  row"> 
+				        			<p:inputText id="j_username" required="true" label="Usuario" styleClass="three fourths"/>  
+        							<p:watermark for="j_username" value="Ingrese Usuario ..." />  
+				        		</div>
+			        			<div class="margen_arr margen_izq row">
+				        			<p:password id="j_password" required="true" label="Contraseña" styleClass=" three fourths"/> 
+        							<p:watermark for="j_password" value="Ingrese Contraseña ..." />  
+			        			</div>
+			        		</div>
+		        		</div>
+		        		<div class="row">
+		        			<div >
+		        				<div class="row">
+			                        <c:if test="${param.state=='failure'}">
+			                            <div class="error">
+			                            	<h:outputText value="No ha podido iniciar sesion.
+			                                Razón: #{sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}" style="margin-left: 47px"/>
+			                            </div>
+			                        </c:if>
+			                        <c:if test="${param.state=='timeout'}">
+			                            <div class="error">
+			                            	<h:outputText value="Su sesión ha expirado, vuelva a iniciar sesión." style="margin-left: 47px"/>
+			                            </div>
+			                        </c:if>
+			                        <c:if test="${param.state=='expired'}">
+			                            <div class="error">
+			                                <h:outputText value="Su sesión ha expirado. Alguien ha iniciado sesión desde otra ubicación." style="margin-left: 47px"/>
+			                            </div>
+			                        </c:if>
+			                        <div class="margen total row">
+			                            <p:messages autoUpdate="true" />
+			                        </div>                                
+			                    </div>
+		        			</div>
+		        			<div class="centrar one centered mobile third">
+		        				<p:commandButton id="btn_inicia" update="@form" ajax="false" 
+                                     action="#{loginController.login}" 
+                                     value="Entrar"
+                                     styleClass="ui-priority-primary"/>  
+		        			</div>
+		        		</div>
+	        		</p:fieldset>
+        		</div>
+        	</div>
+        </h:form>
+        <p:ajaxStatus id="ajaxStatusPanel" onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>
+        <p:dialog modal="true" widgetVar="statusDialog" showHeader="false"
+                  draggable="false" closable="false" appendToBody="true" resizable="false" >
+            <h:form>
+                <img src="#{facesContext.externalContext.requestContextPath}//resources/images/load.gif"
+                     class="center"/>
+                <div class="centered"> 
+                    <h:outputLabel value="Procesando . . ." />
+                </div>
+            </h:form>
+        </p:dialog>
+        </div>
+    </h:body>
 </html>

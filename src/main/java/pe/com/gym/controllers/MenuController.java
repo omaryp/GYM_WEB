@@ -4,7 +4,6 @@
 package pe.com.gym.controllers;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -12,7 +11,6 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.LazyDataModel;
@@ -20,11 +18,8 @@ import org.primefaces.model.SortOrder;
 
 import pe.com.gym.delegate.Gym;
 import pe.com.gym.entidades.ModalidadPago;
-import pe.com.gym.login.Usuario;
-import pe.com.gym.util.Estado;
 import pe.com.gym.util.Js;
 import pe.com.gym.util.Message;
-import pe.com.gym.util.controllers.InitController;
 
 /**
  * @author Omar Yarleque
@@ -33,13 +28,10 @@ import pe.com.gym.util.controllers.InitController;
 
 @ManagedBean
 @ViewScoped
-public class ModalidadController implements Serializable {
+public class MenuController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger(ModalidadController.class.getName());
-	@ManagedProperty(value = "#{InitController}")
-	private InitController initController;
-	private Usuario userSesion;
+	private static final Logger logger = Logger.getLogger(MenuController.class.getName());
 	private int primero;
 	private int ultimo;
 	private int grabar;
@@ -54,16 +46,15 @@ public class ModalidadController implements Serializable {
 	private List<ModalidadPago> modalidades_activas;
 	private LazyDataModel<ModalidadPago> modelModalidad;
 
-	public ModalidadController() {
+	public MenuController() {
 	}
 
 	@PostConstruct
 	public void init() {
+		modalidad = new ModalidadPago();
 		verGuar = true;
 		verActualizar = false;
 		read = false;
-		userSesion = (Usuario)initController.getSessionVars().get("USUARIO");
-		cargarLista();
 	}
 
 	public void cargarClave() {
@@ -80,9 +71,8 @@ public class ModalidadController implements Serializable {
 		if (validarDatos()) {
 			int res = 0;
 			modalidad.setCodmod(codMod);
-			modalidad.setUsureg(userSesion.getUsername());
-			modalidad.setFecreg(new Date());
-			modalidad.setEstmod((modaActiva)?Estado.ACTIVO.getValue():Estado.DESACTIVADO.getValue());
+			modalidad.setUsureg("");
+			modalidad.setFecreg(new java.sql.Date(new java.util.Date().getTime()));
 			res = Gym.INSTANCE.registraModalidad(modalidad);
 			switch (res) {
 			case 0:
@@ -100,8 +90,6 @@ public class ModalidadController implements Serializable {
 		int res = 0;
 		try {
 			if(modalidad!=null){
-				modalidad.setFecmod(new Date());
-				modalidad.setEstmod((modaActiva)?Estado.ACTIVO.getValue():Estado.DESACTIVADO.getValue());
 				res = Gym.INSTANCE.actualizaModalidad(modalidad);
 				switch (res) {
 					case 0:
@@ -122,7 +110,7 @@ public class ModalidadController implements Serializable {
 		int res = 0;
 		try {
 			if(codMod!=0){
-				res = Gym.INSTANCE.cambiaEstadoModalidad(codMod, Estado.ACTIVO.getValue());
+				res = Gym.INSTANCE.cambiaEstadoModalidad(codMod, 1);
 				switch (res) {
 					case 0:
 						Message.addInfo(null, "Se dió de baja esta modalidad !!!");
@@ -142,7 +130,6 @@ public class ModalidadController implements Serializable {
 		limpiarformulario();
 		reiniciarflags();
 		Js.execute("PF('dlg_modalidad').hide()");
-		cargarLista();
 	}
 	
 	public void reiniciarflags() {
@@ -327,22 +314,6 @@ public class ModalidadController implements Serializable {
 
 	public void setRead(boolean read) {
 		this.read = read;
-	}
-
-	public InitController getInitController() {
-		return initController;
-	}
-
-	public void setInitController(InitController initController) {
-		this.initController = initController;
-	}
-
-	public Usuario getUserSesion() {
-		return userSesion;
-	}
-
-	public void setUserSesion(Usuario userSesion) {
-		this.userSesion = userSesion;
 	}
 	
 }

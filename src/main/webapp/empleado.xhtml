@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/plantilla/plantilla.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<ui:define name="titulo">
+    	Ingreso Empleados
+    </ui:define>
+	<ui:define name="cuerpo">
+	
+		<p:panel header="REGISTRO EMPLEADOS" styleClass="margen sin_borde">
+			<h:form id="frm_empleado" prependId="false">
+				<div class="margen row">
+					<p:outputLabel value=" Busqueda : "
+						styleClass="negrita espacio_comp one seventh" />
+					<p:inputText value="#{empleadoController.valBus}" styleClass="negrita espacio_comp three sevenths">
+						<p:ajax update="tbl_empleados,:mensajes" event="keyup" listener="#{empleadoController.cargarLista}"/>
+					</p:inputText>
+				</div>
+				<div class="margen">
+		    		<p:dataTable id="tbl_empleados" paginator="true" lazy="true" 
+			    		rows="10" paginatorPosition="bottom" 
+			    		emptyMessage="No hay coincidencias !!" var="emp"
+			    		value="#{empleadoController.modelEmpleado}"
+			    		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+				        <p:column headerText="Cod. empleado">
+				            <h:outputText value="#{emp.codemp}" />
+				        </p:column>
+				        <p:column headerText="Nombre Empleado" >
+				            <h:outputText value="#{emp.nomemp} #{emp.apeemp}" />
+				        </p:column>
+				        <p:column headerText="DNI">
+				            <h:outputText value="#{emp.dniemp}" />
+				        </p:column>
+				        <p:column headerText="Usuario">
+				            <h:outputText value="#{emp.usuemp}" />
+				        </p:column>
+				        <p:column headerText="Dirección">
+				            <h:outputText value="#{emp.dircli}" />
+				        </p:column>
+				        <p:column headerText="Opciones">
+				            <p:commandButton icon="ui-icon-document" title="Ver Empleado" actionListener="#{empleadoController.verEmpleado}">
+				            	<f:setPropertyActionListener value="#{emp.codemp}" target="#{empleadoController.codEmp}" />
+				            	<f:setPropertyActionListener value="0" target="#{empleadoController.grabar}"/>  
+				            </p:commandButton>                  				 
+				            <p:commandButton icon="ui-icon-pencil" title="Modificar Cliente" actionListener="#{empleadoController.verEmpleado}" >
+				            	<f:setPropertyActionListener value="#{emp.codemp}" target="#{empleadoController.codEmp}" />
+				            	<f:setPropertyActionListener value="1" target="#{empleadoController.grabar}"/>
+				            </p:commandButton>
+				            <p:commandButton icon="ui-icon-cancel" title="Eliminar Empleado" actionListener="#{empleadoController.eliminarEmpleado}">
+				            	<p:confirm header="Confirmación" message="Desea dar de baja al empleado?" icon="ui-icon-alert" />
+				            	<f:setPropertyActionListener value="#{emp.codemp}" target="#{empleadoController.codEmp}" />
+				            </p:commandButton>
+				        </p:column>
+	    			</p:dataTable>
+		    	</div>
+		    	<div class="margen">
+		    		<p:commandButton icon="ui-icon-plus" title="Nuevo Empleado" actionListener="#{empleadoController.cargarClave}" value="Nuevo Empleado" styleClass="ui-priority-primary" update=":nvo_empleado" />
+		    	</div>
+			</h:form>
+		</p:panel>
+		<p:dialog id="nvo_empleado" showHeader="false" widgetVar="dlg_empleado" width="900">
+			<ui:include src="/frm/frmEmpleado.xhtml" />
+		</p:dialog>
+		
+	</ui:define>
+</ui:composition>

@@ -8,31 +8,31 @@
 	<p:dialog widgetVar="dlg_sesion_exp" header="Sesión Expirada"
 		resizable="false" modal="true" width="400" appendToBody="true"
 		closable="false">
-		<div style="text-align: center;">
-			<h:outputText value="Su sesion ha expirado" style="display:block;" />
-			&nbsp;
-			<h:outputLink value="#{request.contextPath}/login/login.do"
-				id="logout">Iniciar Sesión</h:outputLink>
-		</div>
+		<h:form id="frm_iniciar" prependId="false">
+			<div style="text-align: center;">
+				<h:outputText value="Su sesion ha expirado" style="display:block;" />
+				&nbsp;
+				<h:outputLink value="#{request.contextPath}/login/login.do"
+					id="logout">Iniciar Sesión</h:outputLink>
+			</div>
+		</h:form>
 	</p:dialog>
 	<h:form id="frm_header" prependId="false">
-		<span id="bck_cabecera" class="row bordeinf"> <span
-			class="two fourth"></span> <span class="one fourth"> <span
-				id="titulo" class="row">Gladiator-Fitnes</span> <span
-				class="row color_white">un día del 2015</span>
-		</span>
+		<span id="bck_cabecera" class="row bordeinf"> 
+			<span id="titulo" class="three fourth">Gimnasio</span> 
+			<span class="one fourth"> 
+				<span  class="row"></span> 
+				<span class="row color_white"><h:outputText value="#{generarMenuController.fecha}"/></span>
+			</span>
 		</span>
 		<div id="info" class="row">
 			<ul>
-				<li><span class="usuario"><h:outputText value="" /></span></li>
-				<li><span class="perfil"><h:outputText value="" /></span></li>
+				<li><span class="usuario"><h:outputText value="#{generarMenuController.userIniSesion.empleado.nomemp} #{generarMenuController.userIniSesion.empleado.apeemp}"/></span></li>
+				<li><span class="perfil"><h:outputText value="#{generarMenuController.userIniSesion.perfil.nomper}" /></span></li>
 				<li>
-					<!--<h:outputLink value="#{request.contextPath}/j_spring_security_logout" id="lnklogout" styleClass="salir">
+					<h:outputLink value="#{request.contextPath}/j_spring_security_logout" id="lnklogout" styleClass="salir">
                   			Cerrar Sesión
-              			</h:outputLink>  --> <h:outputLink value=""
-						id="lnklogout" styleClass="salir">
-                  			Cerrar Sesión
-              			</h:outputLink>
+              		</h:outputLink> 
 				</li>
 			</ul>
 		</div>
