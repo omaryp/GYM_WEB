@@ -11,7 +11,7 @@
     </ui:define>
 	<ui:define name="cuerpo">
 		<p:panel header="SERVICIOS" styleClass="margen sin_borde">
-			<h:form id="frm_modalidad" prependId="false">
+			<h:form id="frm_servicio" prependId="false">
 				<div class="margen row">
 					<p:outputLabel value=" Busqueda : "
 						styleClass="negrita espacio_comp one seventh" />
@@ -54,12 +54,12 @@
 	    			</p:dataTable>
 		    	</div>
 		    	<div class="margen">
-		    		<p:commandButton icon="ui-icon-plus" title="Nuevo Servicio" actionListener="#{servicioController.cargarClave}" value="Nuevo Cliente" styleClass="ui-priority-primary" update=":nvo_servicio" />
+		    		<p:commandButton icon="ui-icon-plus" title="Nuevo Servicio" actionListener="#{servicioController.cargarClave}" value="Nuevo Servicio" styleClass="ui-priority-primary" update=":nvo_servicio" />
 		    	</div>
 			</h:form>
 		</p:panel>
 		
-		<p:dialog id="nvo_servicio" showHeader="false" widgetVar="dlg_servicio" width="500">
+		<p:dialog id="nvo_servicio" showHeader="false" widgetVar="dlg_servicio" width="600">
 			<ui:include src="/frm/frmServicio.xhtml" />
 		</p:dialog>
 		

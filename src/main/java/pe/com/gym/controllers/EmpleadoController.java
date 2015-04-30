@@ -21,6 +21,8 @@ import pe.com.gym.dto.EmpleadoDTO;
 import pe.com.gym.entidades.Empleado;
 import pe.com.gym.entidades.Perfil;
 import pe.com.gym.entidades.Usuario;
+import pe.com.gym.entidades.UsuarioPK;
+import pe.com.gym.util.Estado;
 import pe.com.gym.util.Js;
 import pe.com.gym.util.Message;
 
@@ -58,18 +60,21 @@ public class EmpleadoController implements Serializable {
 	@PostConstruct
 	public void init() {
 		empleado = new Empleado();
+		usuario = new Usuario();
 		verGuar = true;
 		verActualizar = false;
 		read = false;
+		cargarLista();
 	}
 
 	public void cargarClave() {
 		empleado = new Empleado();
-		//codEmp = Gym.INSTANCE.getCodigoModalidadNva();
+		codEmp = Gym.INSTANCE.getCodigoEmpleadoNvo().intValue();
 		if (codEmp != 0) {
+			perfiles = Gym.INSTANCE.getPerfiles();
 			Js.execute("PF('dlg_empleado').show()");
 		} else
-			Message.addError(null, "Error al cargar código de modalidad.");
+			Message.addError(null, "Error al cargar código de empleado.");
 		Js.update("mensajes");
 	}
 	
@@ -78,17 +83,35 @@ public class EmpleadoController implements Serializable {
 			int res = 0;
 			empleado.setCodemp(codEmp);
 			empleado.setUsureg("");
+			empleado.setUsuemp(usuario.getUsuemp());
 			empleado.setFecreg(new java.sql.Date(new java.util.Date().getTime()));
-			//res = Gym.INSTANCE.registraModalidad(empleado);
+			res = Gym.INSTANCE.guardarEmpleado(empleado,codPer);
 			switch (res) {
 			case 0:
-				Message.addInfo(null, "Modalidad registrada correctamente !!!");
+				UsuarioPK idUsuario = new UsuarioPK();
+				idUsuario.setCodemp(codEmp);
+				idUsuario.setCorrel(1);
+				usuario.setId(idUsuario);
+				usuario.setFecreg(new java.sql.Date(new java.util.Date().getTime()));
+				usuario.setUsureg("");
+				usuario.setEstusr(Estado.ACTIVO.getValue());
+				res = Gym.INSTANCE.registraUsuario(usuario);
+				switch (res) {
+				case 0:
+					Message.addInfo(null, "Empleado registrado correctamente !!!");
+					break;
+
+				default:
+					Message.addError(null, "Error al registrar Usuario !!!");
+					break;
+				}
 				break;
 
 			default:
-				Message.addError(null, "Error al guardar modalidad !!!");
+				Message.addError(null, "Error al registrar Empleado !!!");
 				break;
 			}
+			
 		}
 	}
 	
@@ -96,7 +119,7 @@ public class EmpleadoController implements Serializable {
 		int res = 0;
 		try {
 			if(empleado!=null){
-				//res = Gym.INSTANCE.actualizaModalidad(empleado);
+				res = Gym.INSTANCE.actualizarEmpleado(empleado);
 				switch (res) {
 					case 0:
 						Message.addInfo(null, "Se actualizó correctamenete !!!");
@@ -116,18 +139,18 @@ public class EmpleadoController implements Serializable {
 		int res = 0;
 		try {
 			if(codEmp!=0){
-				res = Gym.INSTANCE.cambiaEstadoModalidad(codEmp, 1);
+				res = Gym.INSTANCE.darBajaEmpleado(codEmp);
 				switch (res) {
 					case 0:
-						Message.addInfo(null, "Se dió de baja esta modalidad !!!");
+						Message.addInfo(null, "Se dió de baja empleado !!!");
 						break;
 					default:
-						Message.addError(null, "Error al dar de baja esta modalidad !!!");
+						Message.addError(null, "Error al dar de baja empleado !!!");
 						break;
 				}
 			}
 		} catch (Exception e) {
-			Message.addError(null, "Error al eliminar el cliente.");
+			Message.addError(null, "Error al eliminar empleado.");
 		}
 		Js.update("mensajes");
 	}
@@ -135,7 +158,7 @@ public class EmpleadoController implements Serializable {
 	public void salir(){
 		limpiarformulario();
 		reiniciarflags();
-		Js.execute("PF('dlg_modalidad').hide()");
+		Js.execute("PF('dlg_empleado').hide()");
 	}
 	
 	public void reiniciarflags() {
@@ -161,12 +184,10 @@ public class EmpleadoController implements Serializable {
 			Message.addError(null, "Ingrese dirección.");
 		if (empleado.getDniemp().trim().equals(""))
 			Message.addError(null, "Ingrese DNI.");
-		if (empleado.getUsuemp().trim().equals(""))
-			Message.addError(null, "Ingrese usuario.");
 		if (codPer == 0)
 			Message.addError(null, "Seleccione perfil.");
 		if (usuario.getUsuemp().trim().equals(""))
-			Message.addError(null, "Seleccione usuario.");
+			Message.addError(null, "Ingrese usuario.");
 		if (usuario.getPasemp().trim().equals(""))
 			Message.addError(null, "Ingrese contraseña.");
 		if (passConfirm.trim().equals(""))
@@ -210,6 +231,7 @@ public class EmpleadoController implements Serializable {
 		};
 	}
 
+	@SuppressWarnings("unchecked")
 	public void loadData() {
 		int[] limites = new int[2];
 		Map<String, Object> map = null;
@@ -217,9 +239,9 @@ public class EmpleadoController implements Serializable {
 		limites[1] = ultimo;
 		Integer count;
 		try {
-			map = Gym.INSTANCE.listaModalidades(valBus, limites);
+			map = Gym.INSTANCE.listaEmpleados(valBus, limites);
 			if (map != null && !map.isEmpty()) {
-				//empleados = (List<ModalidadPago>) map.get("EMPLEADOS");
+				empleados = (List<EmpleadoDTO>) map.get("EMPLEADOS");
 				count = (Integer) map.get("TOTAL");
 				modelEmpleado.setRowCount(count);
 			} else
@@ -240,7 +262,7 @@ public class EmpleadoController implements Serializable {
 		}
 		verGuar = false;
 		try {
-			//empleado = Gym.INSTANCE.getModalidad(codEmp);
+			empleado = Gym.INSTANCE.getEmpleado(codEmp);
 			if(empleado!=null){
 				codEmp = empleado.getCodemp();
 				Js.update("ing_empleado");

@@ -27,23 +27,23 @@
 			    		value="#{perfilController.modelPerfil}"
 			    		paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
 				        <p:column headerText="Cod. Perfil">
-				            <h:outputText value="#{per.codPer}" />
+				            <h:outputText value="#{per.codper}" />
 				        </p:column>
-				        <p:column headerText="Nomnre Perfil" >
-				            <h:outputText value="#{per.nomPer}" />
+				        <p:column headerText="Nombre Perfil" >
+				            <h:outputText value="#{per.nomper}" />
 				        </p:column>
 				        <p:column headerText="Opciones">
 				            <p:commandButton icon="ui-icon-document" title="Ver Perfil" actionListener="#{perfilController.verPerfil}">
-				            	<f:setPropertyActionListener value="#{per.codPer}" target="#{perfilController.codPer}" />
-				            	<f:setPropertyActionListener value="0" target="#{perfilController.grabar}"/>  
+				            	<f:setPropertyActionListener value="#{per.codper}" target="#{perfilController.codPer}" />
+				            	<f:setPropertyActionListener value="#{0}" target="#{perfilController.grabar}"/>  
 				            </p:commandButton>                  				 
 				            <p:commandButton icon="ui-icon-pencil" title="Modificar Perfil" actionListener="#{perfilController.verPerfil}" >
-				            	<f:setPropertyActionListener value="#{per.codPer}" target="#{perfilController.codPer}" />
-				            	<f:setPropertyActionListener value="1" target="#{perfilController.grabar}"/>
+				            	<f:setPropertyActionListener value="#{per.codper}" target="#{perfilController.codPer}" />
+				            	<f:setPropertyActionListener value="#{1}" target="#{perfilController.grabar}"/>
 				            </p:commandButton>
 				            <p:commandButton icon="ui-icon-cancel" title="Eliminar Perfil" actionListener="#{perfilController.eliminarPerfil}">
 				            	<p:confirm header="Confirmación" message="Desea dar de baja el perfil?" icon="ui-icon-alert" />
-				            	<f:setPropertyActionListener value="#{per.codPer}" target="#{perfilController.codPer}" />
+				            	<f:setPropertyActionListener value="#{per.codper}" target="#{perfilController.codPer}" />
 				            </p:commandButton>
 				        </p:column>
 	    			</p:dataTable>

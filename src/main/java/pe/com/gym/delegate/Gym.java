@@ -17,6 +17,8 @@ import pe.com.gym.entidades.Menu;
 import pe.com.gym.entidades.ModalidadPago;
 import pe.com.gym.entidades.Perfil;
 import pe.com.gym.entidades.Servicio;
+import pe.com.gym.entidades.TarifaServicio;
+import pe.com.gym.entidades.TarifaServicioPK;
 import pe.com.gym.entidades.Usuario;
 import pe.com.gym.facade.FacadeGYMLocal;
 
@@ -111,8 +113,8 @@ public enum Gym {
 		return facadeLocal.getServicio(codSer);
 	}
 
-	public int registraServicio(Servicio servic) {
-		return facadeLocal.registraServicio(servic);
+	public int registraServicio(Servicio servic,List<TarifaServicio> tarifas) {
+		return facadeLocal.registraServicio(servic,tarifas);
 	}
 
 	public int actualizaServicio(Servicio servic) {
@@ -189,10 +191,34 @@ public enum Gym {
 	public List<Menu> getMenus(int codEmp) {
 		return facadeLocal.getMenus(codEmp);
 	}
+	
+	public List<Menu> getMenus() {
+		return facadeLocal.getMenus();
+	}
 
 	// para los perfiles
 	public Perfil getPerfil(int codEmp) {
 		return facadeLocal.getPerfil(codEmp);
+	}
+	
+	public List<Perfil> getPerfiles(){
+		return facadeLocal.getPerfiles();
+	}
+	
+	public int getCodigoPerfilNvo(){
+		return facadeLocal.getCodigoPerfilNvo();
+	}
+
+	public int registraPerfil(Perfil per,int[]menus){
+		return facadeLocal.registraPerfil(per,menus);
+	}
+
+	public int actualizaPerfil(Perfil per){
+		return facadeLocal.actualizaPerfil(per);
+	}
+	
+	public Map<String, Object> listaPerfiles(String valBus, int[] limites){
+		return facadeLocal.listaPerfiles(valBus, limites);
 	}
 
 	// para los empleados
@@ -200,6 +226,45 @@ public enum Gym {
 		return facadeLocal.getEmpleado(codigoEmpleado);
 	}
 	
+	public Long getCodigoEmpleadoNvo() {
+		return facadeLocal.getCodigoEmpleadoNvo();
+	}
 	
+	public int actualizarEmpleado(Empleado emp){
+		return facadeLocal.actualizarEmpleado(emp);
+	}
+
+	public int darBajaEmpleado(long codEmp){
+		return facadeLocal.darBajaEmpleado(codEmp);
+	}
+
+	public Map<String, Object> listaEmpleados(String valBus, int[] limites){
+		return facadeLocal.listaEmpleados(valBus,limites);
+	}
+	
+	public int guardarEmpleado(Empleado emp,int perfil){
+		return facadeLocal.guardarEmpleado(emp,perfil);
+	}
+	
+	//para las tarifas
+	public TarifaServicio getTarifa(TarifaServicioPK id){
+		return facadeLocal.getTarifa(id);
+	}
+	
+	public TarifaServicioPK getCodigoTarifaNva(int codser, int codmod){
+		return facadeLocal.getCodigoTarifaNva(codser, codmod);
+	}
+
+	public int darBajaTarifa(TarifaServicioPK id){
+		return facadeLocal.darBajaTarifa(id);
+	}
+
+	public List<TarifaServicio> listaTarifas(Servicio servicio){
+		return facadeLocal.listaTarifas(servicio);
+	}
+
+	public int registraTarifa(TarifaServicio tar){
+		return facadeLocal.registraTarifa(tar);
+	}
 
 }

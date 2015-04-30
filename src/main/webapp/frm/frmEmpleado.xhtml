@@ -34,7 +34,7 @@
 						styleClass="one fourth" />
 					<p:outputLabel value="Fec. Nacimiento : "
 						styleClass="negrita espacio_comp one fourth" />
-					<p:calendar value="#{empleadoController.empleado.fecnac}" showOn="button" readonly="#{empleadoController.read}"
+					<p:calendar value="#{empleadoController.empleado.fecnac}" navigator="true" yearRange="c-70:c" pattern="dd/MM/yyyy"  readonly="#{empleadoController.read}"
 						styleClass="one fourth" />
 				</div>
 				<div class="margen row">
@@ -69,7 +69,7 @@
 					<p:outputLabel value="Password : " styleClass="negrita espacio_comp one fourth" />
 					<p:password value="#{empleadoController.usuario.pasemp}" readonly="#{empleadoController.read}" styleClass="one fourth" />
 					<p:outputLabel value="Confirme : " styleClass="negrita espacio_comp one fourth" />
-					<p:password value="#{empleadoController.empleado.fecnac}" showOn="button" readonly="#{empleadoController.read}" styleClass="one fourth" />
+					<p:password value="#{empleadoController.passConfirm}" showOn="button" readonly="#{empleadoController.read}" styleClass="one fourth" />
 				</div>
 			</fieldset>
 		</p:panel>

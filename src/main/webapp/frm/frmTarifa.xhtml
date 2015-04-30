@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<h:form id="ing_tarifa" prependId="false">
+		<p:panel header="Nueva Tarifa">
+			<div class="margen row">
+				<p:outputLabel value="Servicio : "
+					styleClass="negrita espacio_comp one fourth" />
+				<p:outputLabel value="#{servicioController.codSer} - #{servicioController.servicio.nomser}"
+					styleClass="one fourth" />
+			</div>
+			<div class="margen row">
+				<p:outputLabel value="Modalidad : " styleClass="negrita espacio_comp one fourth" />
+				<p:selectOneMenu styleClass="three fourths" value="#{servicioController.codMod}" >
+					<f:selectItem itemLabel="Seleccione Modalidad" itemValue="-1" />
+					<f:selectItems value="#{servicioController.modalidades}" var="moda" itemLabel="#{moda.nommod}" itemValue="#{moda.codmod}"/>
+				</p:selectOneMenu>
+			</div>
+			
+			<div class="margen row">
+				<p:outputLabel value="Monto: " styleClass="negrita espacio_comp one fourth" />
+				<p:inputText value="#{servicioController.tarifa.monto}"/>
+			</div>
+			
+			
+		</p:panel>
+		<div class="margen">
+			<p:commandButton id="btnGuardaTar" value="Guardar" icon="ui-icon-check"
+				actionListener="#{servicioController.agregaTarifa()}"
+				styleClass="ui-priority-primary" update=":ing_servicio:tbl_tarifas">
+				<p:confirm header="Confirmación" message="Desea guardar los datos?"
+					icon="ui-icon-alert" />
+			</p:commandButton>
+			<p:commandButton id="btnSalirTar" value="Salir"
+				actionListener="#{servicioController.salirTarifa}"
+				icon="ui-icon-closethick" styleClass="ui-priority-primary"
+				update=":frm_servicio" />
+		</div>
+	</h:form>
+</ui:composition>

@@ -122,7 +122,7 @@ public class ModalidadController implements Serializable {
 		int res = 0;
 		try {
 			if(codMod!=0){
-				res = Gym.INSTANCE.cambiaEstadoModalidad(codMod, Estado.ACTIVO.getValue());
+				res = Gym.INSTANCE.cambiaEstadoModalidad(codMod, Estado.DESACTIVADO.getValue());
 				switch (res) {
 					case 0:
 						Message.addInfo(null, "Se dió de baja esta modalidad !!!");
@@ -136,6 +136,7 @@ public class ModalidadController implements Serializable {
 			Message.addError(null, "Error al eliminar el cliente.");
 		}
 		Js.update("mensajes");
+		cargarLista();
 	}
 	
 	public void salir(){
@@ -239,6 +240,7 @@ public class ModalidadController implements Serializable {
 			modalidad = Gym.INSTANCE.getModalidad(codMod);
 			if(modalidad!=null){
 				codMod = modalidad.getCodmod();
+				modaActiva = (modalidad.getEstmod() == Estado.ACTIVO.getValue());
 				Js.update("ing_modalidad");
 				Js.execute("PF('dlg_modalidad').show()");
 			}else

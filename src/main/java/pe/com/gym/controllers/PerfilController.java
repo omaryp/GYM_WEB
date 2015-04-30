@@ -17,6 +17,7 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
+import pe.com.gym.delegate.Gym;
 import pe.com.gym.entidades.Menu;
 import pe.com.gym.entidades.Perfil;
 import pe.com.gym.util.Js;
@@ -57,11 +58,13 @@ public class PerfilController implements Serializable {
 		verGuar = true;
 		verActualizar = false;
 		read = false;
+		menus = Gym.INSTANCE.getMenus();
+		cargarLista();
 	}
 
 	public void cargarClave() {
 		perfil = new Perfil();
-		//codPer = Gym.INSTANCE.getCodigoModalidadNva();
+		codPer = Gym.INSTANCE.getCodigoPerfilNvo();
 		if (codPer != 0) {
 			Js.execute("PF('dlg_perfil').show()");
 		} else
@@ -75,7 +78,7 @@ public class PerfilController implements Serializable {
 			perfil.setCodper(codPer);
 			perfil.setUsureg("");
 			perfil.setFecreg(new Date());
-			//res = Gym.INSTANCE.registraModalidad(modalidad);
+			res = Gym.INSTANCE.registraPerfil(perfil,menusSeleccionados);
 			switch (res) {
 			case 0:
 				Message.addInfo(null, "Perfil registrado correctamente !!!");
@@ -92,7 +95,7 @@ public class PerfilController implements Serializable {
 		int res = 0;
 		try {
 			if(perfil!=null){
-				//res = Gym.INSTANCE.actualizaModalidad(perfil);
+				res = Gym.INSTANCE.actualizaPerfil(perfil);
 				switch (res) {
 					case 0:
 						Message.addInfo(null, "Se actualizó correctamenete !!!");
@@ -131,7 +134,7 @@ public class PerfilController implements Serializable {
 	public void salir(){
 		limpiarformulario();
 		reiniciarflags();
-		Js.execute("PF('dlg_modalidad').hide()");
+		Js.execute("PF('dlg_perfil').hide()");
 	}
 	
 	public void reiniciarflags() {
@@ -145,7 +148,7 @@ public class PerfilController implements Serializable {
 	}
 	
 	public void cargarLista() {
-		loadLazyModelModalidades();
+		loadLazyModelPerfiles();
 	}
 
 	public boolean validarDatos() {
@@ -156,10 +159,9 @@ public class PerfilController implements Serializable {
 		return !Message.hayMensajes();
 	}
 	
-	public void loadLazyModelModalidades() {
+	public void loadLazyModelPerfiles() {
 		modelPerfil = new LazyDataModel<Perfil>() {
 			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void setRowIndex(int rowIndex) {
 				try {
@@ -191,6 +193,7 @@ public class PerfilController implements Serializable {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	public void loadData() {
 		int[] limites = new int[2];
 		Map<String, Object> map = null;
@@ -198,9 +201,9 @@ public class PerfilController implements Serializable {
 		limites[1] = ultimo;
 		Integer count;
 		try {
-			//map = Gym.INSTANCE.listaModalidades(valBus, limites);
+			map = Gym.INSTANCE.listaPerfiles(valBus, limites);
 			if (map != null && !map.isEmpty()) {
-				//perfiles = (List<ModalidadPago>) map.get("PERFILES");
+				perfiles = (List<Perfil>) map.get("PERFILES");
 				count = (Integer) map.get("TOTAL");
 				modelPerfil.setRowCount(count);
 			} else

@@ -34,9 +34,6 @@
 				        <p:column headerText="Días Modalidad" >
 				            <h:outputText value="#{moda.diamod}" />
 				        </p:column>
-				        <p:column headerText="Estado">
-				            <h:outputText value="#{moda.estmod}" />
-				        </p:column>
 				        <p:column headerText="Opciones">
 				            <p:commandButton icon="ui-icon-document" title="Ver Modalidad" actionListener="#{modalidadController.verModalidad}">
 				            	<f:setPropertyActionListener value="#{moda.codmod}" target="#{modalidadController.codMod}" />

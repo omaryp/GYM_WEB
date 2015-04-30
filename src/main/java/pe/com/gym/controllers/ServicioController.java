@@ -4,6 +4,7 @@
 package pe.com.gym.controllers;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,10 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import pe.com.gym.delegate.Gym;
+import pe.com.gym.entidades.ModalidadPago;
 import pe.com.gym.entidades.Servicio;
+import pe.com.gym.entidades.TarifaServicio;
+import pe.com.gym.entidades.TarifaServicioPK;
 import pe.com.gym.login.Usuario;
 import pe.com.gym.util.Estado;
 import pe.com.gym.util.Js;
@@ -42,14 +46,20 @@ public class ServicioController implements Serializable {
 	private int ultimo;
 	private int grabar;
 	private int codSer;
+	private int codMod;
+	private int correl;
 	private boolean serActivo;
 	private boolean verGuar;
 	private boolean verActualizar;
 	private boolean read;
 	private String valBus;
 	private Servicio servicio;
+	private TarifaServicio tarifa;
+	private TarifaServicioPK idTarifa;
 	private Usuario userSesion;
 	private List<Servicio> servicios;
+	private List<ModalidadPago> modalidades;
+	private List<TarifaServicio> tarifas;
 	private LazyDataModel<Servicio> modelServicio;
 	private static final Logger logger = Logger.getLogger(ServicioController.class.getName());
 
@@ -69,6 +79,7 @@ public class ServicioController implements Serializable {
 		servicio = new Servicio();
 		codSer = Gym.INSTANCE.getCodigoServicioNvo();
 		if (codSer != 0) {
+			tarifas = new ArrayList<TarifaServicio>();
 			Js.execute("PF('dlg_servicio').show()");
 		} else
 			Message.addError(null, "Error al cargar código de Servicio");
@@ -82,7 +93,7 @@ public class ServicioController implements Serializable {
 			servicio.setCodser(codSer);
 			servicio.setUsureg("");
 			servicio.setFecreg(new java.sql.Date(new java.util.Date().getTime()));
-			res = Gym.INSTANCE.registraServicio(servicio);
+			res = Gym.INSTANCE.registraServicio(servicio,tarifas);
 			switch (res) {
 			case 0:
 				Message.addInfo(null, "Servicio registrado correctamente !!!");
@@ -94,7 +105,7 @@ public class ServicioController implements Serializable {
 			}
 		}
 	}
-	
+			
 	public void actualizarServicio(){
 		int res = 0;
 		try {
@@ -161,11 +172,9 @@ public class ServicioController implements Serializable {
 
 	public boolean validarDatos() {
 		if (servicio.getNomser().trim().equals(""))
-			Message.addError(null, "Ingrese referencia.");
-		if (servicio.getMonser() == 0)
-			Message.addError(null, "Ingrese días de la modalidad.");
+			Message.addError(null, "Ingrese nombre servicio.");
 		if (servicio.getDesser().equals(""))
-			Message.addError(null, "Ingrese dni.");
+			Message.addError(null, "Ingrese descripción.");
 		if (codSer == 0)
 			Message.addError(null, "No se generó código de cliente.");
 		return !Message.hayMensajes();
@@ -249,6 +258,58 @@ public class ServicioController implements Serializable {
 		}
 		Js.update("mensajes");	
 	}
+	
+	//tarifas
+	public void cargaFrmTarifa(){		
+		if(!servicio.getNomser().equals("")){
+			modalidades = Gym.INSTANCE.listaModalidades();
+			tarifa = new TarifaServicio();
+			Js.execute("PF('dlg_tarifa').show()");
+			Js.update("ing_tarifa");
+		}else Message.addError(null, "Ingrese el nombre del servicio");
+		Js.update("mensajes");
+	}
+	
+	public void cargaCorrelativo(){
+		idTarifa = Gym.INSTANCE.getCodigoTarifaNva(codSer,codMod);
+	}
+	
+	public void agregaTarifa(){
+		if(validarDatosTarifa()){
+			cargaCorrelativo();
+			tarifa.setId(idTarifa);
+			tarifa.setEstado(Estado.ACTIVO.getValue());
+			tarifa.setFecreg(new Date());
+			tarifa.setUsureg("");
+			tarifas.add(tarifa);
+			limpiaDatosTarifa();
+			Js.execute("PF('dlg_tarifa').hide()");
+		}
+		Js.update("mensajes");
+	}
+	
+	public void limpiaDatosTarifa(){
+		codMod = -1;
+	}
+	
+	public boolean validarDatosTarifa(){
+		if (codMod == 0 || codMod == -1)
+			Message.addError(null, "Seleccione modalidad de pago.");
+		if (tarifa.getMonto() == 0)
+			Message.addError(null, "Ingrese monto.");
+		return !Message.hayMensajes();
+	}
+	
+	public void salirTarifa(){
+		Js.execute("PF('dlg_tarifa').hide()");
+		cargarListaTarifa();
+	}
+	
+	public void cargarListaTarifa(){
+		tarifas = Gym.INSTANCE.listaTarifas(servicio);
+		Js.update("tbl_tarifas");
+	}	
+	////////////
 
 	public int getGrabar() {
 		return grabar;
@@ -337,5 +398,53 @@ public class ServicioController implements Serializable {
 	public void setUserSesion(Usuario userSesion) {
 		this.userSesion = userSesion;
 	}
-	
+
+	public List<TarifaServicio> getTarifas() {
+		return tarifas;
+	}
+
+	public void setTarifas(List<TarifaServicio> tarifas) {
+		this.tarifas = tarifas;
+	}
+
+	public List<ModalidadPago> getModalidades() {
+		return modalidades;
+	}
+
+	public void setModalidades(List<ModalidadPago> modalidades) {
+		this.modalidades = modalidades;
+	}
+
+	public TarifaServicio getTarifa() {
+		return tarifa;
+	}
+
+	public void setTarifa(TarifaServicio tarifa) {
+		this.tarifa = tarifa;
+	}
+
+	public int getCorrel() {
+		return correl;
+	}
+
+	public void setCorrel(int correl) {
+		this.correl = correl;
+	}
+
+	public TarifaServicioPK getIdTarifa() {
+		return idTarifa;
+	}
+
+	public void setIdTarifa(TarifaServicioPK idTarifa) {
+		this.idTarifa = idTarifa;
+	}
+
+	public int getCodMod() {
+		return codMod;
+	}
+
+	public void setCodMod(int codMod) {
+		this.codMod = codMod;
+	}
+		
 }

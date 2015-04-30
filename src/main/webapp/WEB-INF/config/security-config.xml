@@ -28,7 +28,7 @@
     <security:http auto-config="true" use-expressions="true" access-denied-page="/static/accessDenied.jsp">
         <security:custom-filter ref="sessionManagementFilter" before="SESSION_MANAGEMENT_FILTER" /> 
         <security:form-login login-page="/login/login.do" 
-        default-target-url="/plantilla/plantilla.do" 
+        default-target-url="/inicio.do" 
         always-use-default-target="true"
         authentication-failure-url="/login/login.do?state=failure"/>
         

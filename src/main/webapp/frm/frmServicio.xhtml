@@ -5,7 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
-	<h:form id="ing_modalidad" prependId="false">
+	<h:form id="ing_servicio" prependId="false">
 		<p:panel header="Nuevo Servicio">
 			<div class="margen row">
 				<p:outputLabel value="Código : "
@@ -16,20 +16,55 @@
 			<div class="margen row">
 				<p:outputLabel value="Referencia : "
 					styleClass="negrita espacio_comp one fourth" />
-				<p:inputText value="#{servicioController.servicio.nomser}" styleClass="two fourths" readonly="#{servicioController.read}"/>
+				<p:inputText value="#{servicioController.servicio.nomser}"
+					styleClass="two fourths" readonly="#{servicioController.read}" />
+			</div>
+			
+			<div class="margen row">
+			
+			<p:outputLabel value="Activo: "
+					styleClass="negrita espacio_comp one fourth" />
+				<p:selectBooleanCheckbox value="#{servicioController.serActivo}"
+					styleClass="espacio_comp one fourth"
+					readonly="#{servicioController.read}" />
+			</div>
+			
+			<div class="margen row">
+				<p:dataTable var="tar" value="#{servicioController.tarifas}" id="tbl_tarifas">
+					<p:column headerText="Descripcion">
+						<h:outputText value="#{tar.desmod}" />
+					</p:column>
+					<p:column headerText="Monto">
+						<h:outputText value="#{tar.monto}" />
+					</p:column>
+					<p:column headerText="Opciones">
+						<p:commandButton icon="ui-icon-document" title="Ver Modalidad" actionListener="#{modalidadController.verModalidad}">
+				            <f:setPropertyActionListener value="#{moda.codmod}" target="#{modalidadController.codMod}" />  
+				        </p:commandButton>       
+				        <p:commandButton icon="ui-icon-cancel" title="Eliminar Modalidad" actionListener="#{modalidadController.eliminarModalidad}">
+				           	<p:confirm header="Confirmación" message="Desea dar de baja esta tarifa?" icon="ui-icon-alert" />
+				           	<f:setPropertyActionListener value="#{moda.codmod}" target="#{modalidadController.codMod}" />
+				        </p:commandButton>
+					</p:column>
+				</p:dataTable>
+				<p:commandButton id="btnMasTarifas" value="Nueva Tarifa"
+					actionListener="#{servicioController.cargaFrmTarifa}"
+					icon="ui-icon-plus" styleClass="ui-priority-primary"
+					update=":frm_servicio" />
+			</div>
+			
+					
+			<div class="margen row">
+				<p:outputLabel value="Descripcion : "
+					styleClass="negrita espacio_comp one fourth" />
 			</div>
 			<div class="margen row">
-				<p:outputLabel value="Precio : " styleClass="negrita espacio_comp one fourth" />
-				<p:inputText value="#{servicioController.servicio.monser}" styleClass="one fourth" readonly="#{servicioController.read}" />
-				<p:outputLabel value="Activo: " styleClass="negrita espacio_comp one fourth"/>
-        		<p:selectBooleanCheckbox value="#{servicioController.serActivo}" styleClass="espacio_comp one fourth" readonly="#{servicioController.read}"/>
-			</div>
-			<div class="margen row">
-				<p:outputLabel value="Descripcion : " styleClass="negrita espacio_comp one fourth" />
-			</div>
-			<div class="margen row">
-				<p:inputTextarea rows="5" cols="30" counter="display" maxlength="150" counterTemplate="{0} caracteres restantes." autoResize="false" styleClass="four fourths" value="#{servicioController.servicio.desser}" readonly="#{servicioController.read}"/>
-    			<h:outputText id="display" />
+				<p:inputTextarea rows="5" cols="30" counter="display"
+					maxlength="150" counterTemplate="{0} caracteres restantes."
+					autoResize="false" styleClass="four fourths"
+					value="#{servicioController.servicio.desser}"
+					readonly="#{servicioController.read}" />
+				<h:outputText id="display" />
 			</div>
 		</p:panel>
 		<div class="margen">
@@ -44,15 +79,22 @@
 			</h:panelGroup>
 			<h:panelGroup id="png_actualiza"
 				rendered="#{servicioController.verActualizar}">
-				<p:commandButton id="btnActu" value="Actualizar" actionListener="#{servicioController.actualizarServicio}"
-					icon="ui-icon-check" styleClass="ui-priority-primary" >
-					<p:confirm header="Confirmación" message="Desea actualizar los datos?"
-						icon="ui-icon-alert" />
+				<p:commandButton id="btnActu" value="Actualizar"
+					actionListener="#{servicioController.actualizarServicio}"
+					icon="ui-icon-check" styleClass="ui-priority-primary">
+					<p:confirm header="Confirmación"
+						message="Desea actualizar los datos?" icon="ui-icon-alert" />
 				</p:commandButton>
 			</h:panelGroup>
-			<p:commandButton id="btnSalir" value="Salir" actionListener="#{servicioController.salir}"
-				icon="ui-icon-closethick" styleClass="ui-priority-primary" update=":frm_modalidad" />
+			<p:commandButton id="btnSalir" value="Salir"
+				actionListener="#{servicioController.salir}"
+				icon="ui-icon-closethick" styleClass="ui-priority-primary"
+				update=":frm_servicio" />
 		</div>
 	</h:form>
+	
+	<p:dialog id="nva_tarifa" showHeader="false" widgetVar="dlg_tarifa" width="500">
+			<ui:include src="/frm/frmTarifa.xhtml" />
+	</p:dialog>
 
 </ui:composition>
